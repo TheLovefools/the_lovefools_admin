@@ -34,7 +34,7 @@ export const handleLogin = createAsyncThunk(
   async (credentials, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await axios.post(
-       `${NEXT_PUBLIC_API_URL}api/user/login`,
+       `${NEXT_PUBLIC_API_URL}login`,
         credentials,
       );
 
