@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,          // Allows JavaScript files to be compiled.
+    "skipLibCheck": true,     // Skip type checking of declaration files.
+    "strict": true,           // Enable all strict type-checking options.
+    "noEmit": true,           // Do not emit output files.
+    "esModuleInterop": true,  // Enables emit interoperability between CommonJS and ES Modules.
+    "module": "esnext",       // Specify module code generation.
+    "moduleResolution": "node", // Module resolution strategy.
+    "resolveJsonModule": true, // Allows importing of .json files.
+    "isolatedModules": true,  // Ensure that each file can be safely transpiled without depending on other files.
+    "jsx": "preserve",        // Keep JSX as-is, React will handle the transformation.
+    "incremental": true,      // Enable incremental compilation.
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "build/types/**/*.ts",
+    "app/page.jsx",
+    "app/(auth)/login/page.jsx",
+    "app/layout.jsx",
+    "components/**/*.jsx",
+    "utils/**/*.jsx",
+    "schema/**/*.jsx",
+    "redux/**/*.jsx",
+    "providers/**/*.jsx",
+    "hooks/**/*.jsx",
+    "guards/**/*.jsx",
+    "components/layout/**/*.jsx",
+    "components/common/**/*.jsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
