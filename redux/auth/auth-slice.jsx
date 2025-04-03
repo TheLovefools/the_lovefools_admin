@@ -34,7 +34,7 @@ export const handleLogin = createAsyncThunk(
   async (credentials, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await axios.post(
-        `https://lovefools-backend.vercel.app/api/user/login`,
+       `${NEXT_PUBLIC_API_URL}/api/user/login`,
         credentials,
       );
 
