@@ -1,5 +1,8 @@
 export const NEXT_PUBLIC_API_URL =
-  'https://lovefools-backend.vercel.app/api/user/';
+  'https://api.thelovefools.in/api/user/';
+
+//export const NEXT_PUBLIC_API_URL =
+ // 'https://lovefools-backend.vercel.app/api/user/';
 
 // export const NEXT_PUBLIC_API_URL = 'http://localhost:5000/api/user/';
 
