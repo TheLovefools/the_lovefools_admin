@@ -243,7 +243,7 @@ const MenuList = () => {
                       height={10}
                       width={70}
                       style={{ maxHeight: '50px' }}
-                      src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}${row.photo}`}
+                      src={`https://the-lovefools.s3.eu-north-1.amazonaws.com/uploads/${row.photo}`}
                     />
                   ) : (
                     '-'
