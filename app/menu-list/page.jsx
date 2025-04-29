@@ -68,10 +68,11 @@ const MenuList = () => {
       menuName: row.menu_Name,
       description: row.description,
       price: row.price,
-      menuType: findSingleSelectedValueLabelOption(
-        generateOptions(menuType, 'id', 'type'),
-        row.menuType,
-      ),
+      // menuType: findSingleSelectedValueLabelOption(
+      //   generateOptions(menuType, 'id', 'type'),
+      //   row.menuType,
+      // ),
+      menuType: '2',
       subMenuType: findSingleSelectedValueLabelOption(
         generateOptions(subMenuType, 'id', 'type'),
         row.subMenuType,
@@ -125,13 +126,16 @@ const MenuList = () => {
         menu_Name: menuData.menuName,
         description: menuData.description,
         price: menuData.price,
-        menuType: menuData.menuType.value,
+        // menuType: menuData.menuType.value,
+        menuType: '2', // 2 is for setmenu type
         subMenuType: menuData.subMenuType.value,
       },
       {
         photo: menuData.photo,
       },
     ];
+
+    console.log('SetMenutForm Payload', menuData, payload);
 
     try {
       if (!defaultValues.current.id) {
@@ -207,7 +211,7 @@ const MenuList = () => {
               label: 'Description',
             },
             { id: 'price', label: 'Price' },
-            { id: 'type', label: 'Menu Type' },
+            // { id: 'type', label: 'Menu Type' },
             { id: 'sub_type', label: 'Sub Menu Type' },
             { id: 'photo', label: 'photo', fixed: true },
             { id: 'actions', label: 'Actions', fixed: true },
@@ -229,9 +233,9 @@ const MenuList = () => {
                 <TableCell>{row.description}</TableCell>
 
                 <TableCell>{row.price}</TableCell>
-                <TableCell>
+                {/* <TableCell>
                   {row.menuType ? filterMenu(row.menuType, menuType) : '-'}
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   {row.subMenuType
                     ? filterMenu(row.subMenuType, subMenuType)
@@ -243,7 +247,9 @@ const MenuList = () => {
                       height={10}
                       width={70}
                       style={{ maxHeight: '50px' }}
-                      src={`https://the-lovefools.s3.eu-north-1.amazonaws.com/uploads/${row.photo}`}
+                      // src={`https://the-lovefools.s3.eu-north-1.amazonaws.com/uploads/${row.photo}`}
+                      src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}${row.photo}`}
+                      alt='image'
                     />
                   ) : (
                     '-'

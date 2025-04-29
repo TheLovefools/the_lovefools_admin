@@ -222,6 +222,7 @@ const TableList = () => {
                       width={70}
                       style={{ maxHeight: '50px' }}
                       src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}${row.photo}`}
+                      alt='image'
                     />
                   ) : (
                     '-'

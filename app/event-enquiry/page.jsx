@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import { CONFIRMATION_MESSAGES, eventType } from '@/utils/constant';
+import { CONFIRMATION_MESSAGES, enquiryFor, eventType } from '@/utils/constant';
 import { List } from '@/components/common/list/List';
 import {
   ArrowPathIcon,
@@ -36,11 +36,14 @@ const EventEnquiryList = () => {
   const dispatch = useAppDispatch();
   const defaultValues = useRef({
     id: null,
-    name: '',
-    description: '',
-    date: null,
-    time: null,
+    event_name: '',
+    event_description: '',
+    event_date: null,
+    event_time: null,
     event_type: null,
+    event_mobile: null,
+    event_email: null,
+    event_enquiry_option: null,
   });
 
   const { listParameters, data, total, loading } = useAppSelector(
@@ -65,17 +68,25 @@ const EventEnquiryList = () => {
   };
 
   const handleEditButtonClick = async (row) => {
-    const [hr, min] = row.time.split(':');
+    const [hr, min] = row.event_Time.split(':');
 
     defaultValues.current = {
       id: row._id,
-      name: row.event_Name,
-      description: row.description,
-      date: new Date(row.date),
-      time: new Time(hr, min),
+      event_name: row.event_Name,
+      event_description: row.event_Description,
+      event_date: new Date(row.event_Date),
+      event_time: new Time(hr, min),
+      // event_time: new Time(row.event_Time),
       event_type: findSingleSelectedValueLabelOption(
         generateOptions(eventType, 'id', 'type'),
-        row.event_type,
+        row.event_Type,
+      ),
+      event_mobile: row.event_Mobile,
+      event_email: row.event_Email,
+      // event_enquiry_option: row.event_Enquiry_Option,
+      event_enquiry_option: findSingleSelectedValueLabelOption(
+        generateOptions(enquiryFor, 'id', 'type'),
+        row.event_Enquiry_Option,
       ),
     };
 
@@ -98,11 +109,14 @@ const EventEnquiryList = () => {
   const toggleUpcomingEventListFormModal = () => {
     defaultValues.current = {
       id: null,
-      name: '',
-      description: '',
-      date: null,
-      time: null,
+      event_name: '',
+      event_description: '',
+      event_date: null,
+      event_time: null,
       event_type: null,
+      event_mobile: null,
+      event_email: null,
+      event_enquiry_option: null,
     };
     setShowModal((prev) => !prev);
   };
@@ -125,13 +139,20 @@ const EventEnquiryList = () => {
   }, [loading]);
 
   const onSubmit = async (eventData) => {
+    // const payloadDate = formatDate(eventData.event_date);
+    const payloadDate = eventData.event_date;
     const payload = {
-      event_Name: eventData.name,
-      description: eventData.description,
-      date: eventData.date,
-      time: eventData.time,
-      event_type: eventData.event_type.value,
+      event_Name: eventData.event_name,
+      event_Description: eventData.event_description,
+      event_Date: payloadDate,
+      event_Time: eventData.event_time,
+      event_Type: eventData.event_type.value,
+      event_Mobile: eventData.event_mobile,
+      event_Email: eventData.event_email,
+      event_Enquiry_Option: eventData.event_enquiry_option.value,
     };
+
+    console.log('enquiry_form_payload_', payload);
 
     try {
       if (!defaultValues.current.id) {
@@ -165,6 +186,7 @@ const EventEnquiryList = () => {
 
   const getDataLabel = (options, value) => {
     const getLabel = options && options?.filter((data) => data.id === value);
+    console.log('getDataLabel_', getLabel);
     return getLabel[0].type;
   };
 
@@ -207,14 +229,13 @@ const EventEnquiryList = () => {
         </div>
         <List
           columns={[
-            { id: 'event_Name', label: 'Name' },
-            {
-              id: 'date',
-              label: 'Date',
-            },
-            { id: 'Time', label: 'Time' },
-            { id: 'description', label: 'Description' },
-            { id: 'event_type', label: 'Event Type' },
+            { id: 'event_Name', label: 'Event Name' },
+            { id: 'event_Date', label: 'Event Date' },
+            { id: 'event_Time', label: 'Event Time' },
+            { id: 'event_Mobile', label: 'Contact No.' },
+            { id: 'event_Email', label: 'Contact Email.' },
+            { id: 'event_Enquiry_Option', label: 'Enquiry For' },
+            { id: 'event_Description', label: 'Description' },
             { id: 'actions', label: 'Actions', fixed: true },
           ]}
           data={{
@@ -231,16 +252,27 @@ const EventEnquiryList = () => {
             return (
               <TableRow key={row.id}>
                 <TableCell>{row.event_Name ? row.event_Name : '-'}</TableCell>
-                <TableCell>{row.date ? formatDate(row.date) : '-'}</TableCell>
-                <TableCell>{row.time}</TableCell>
-
-                <TableCell>{row.description}</TableCell>
-
                 <TableCell>
+                  {row.event_Date ? formatDate(row.event_Date) : '-'}
+                </TableCell>
+                <TableCell>
+                  {row.event_Time ? formatDate(row.event_Time) : '-'}
+                </TableCell>
+                <TableCell>
+                  {row.event_Mobile ? row.event_Mobile : '-'}
+                </TableCell>
+                <TableCell>{row.event_Email ? row.event_Email : '-'}</TableCell>
+                <TableCell>
+                  {row.event_Enquiry_Option
+                    ? getDataLabel(enquiryFor, row.event_Enquiry_Option)
+                    : '-'}
+                </TableCell>
+                <TableCell>{row.event_Description}</TableCell>
+                {/* <TableCell>
                   {row.event_type
                     ? getDataLabel(eventType, row.event_type)
                     : '-'}
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   <div className='flex items-center gap-4'>
                     <Button

@@ -116,6 +116,8 @@ const TestimonialList = () => {
       },
     ];
 
+    console.log('TestimonialListForm Payload', payload);
+
     try {
       if (!defaultValues.current.id) {
         const data = await dispatch(addTestimonialList(payload));
@@ -211,6 +213,7 @@ const TestimonialList = () => {
                       width={70}
                       style={{ maxHeight: '50px' }}
                       src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}${row.photo}`}
+                      alt='image'
                     />
                   ) : (
                     '-'

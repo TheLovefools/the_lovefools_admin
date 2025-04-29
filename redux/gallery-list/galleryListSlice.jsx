@@ -85,6 +85,51 @@ export const addGalleryList = createAsyncThunk(
   },
 );
 
+export const addGalleryListNew = createAsyncThunk(
+  'galleryList/addGalleryList',
+  async (galleryListDetails, { rejectWithValue }) => {
+    try {
+      // Step 1: Make API call to create the gallery list
+      const { data } = await axiosInstance.post(
+        API_ENDPOINT.ADD_GALLERY_LIST,
+        galleryListDetails[0], // Assuming the first item contains the data for the gallery list
+      );
+
+      // Step 2: If gallery list creation is successful, upload the files (photo or video)
+      if (data) {
+        // Use formDataApi to handle file appending (photo or video)
+        let formData = null;
+
+        // Check if there is a photo or video and prepare formData accordingly
+        if (galleryListDetails[1].photo) {
+          formData = formDataApi(galleryListDetails[1].photo);
+        } else if (galleryListDetails[1].video) {
+          formData = formDataApi(galleryListDetails[1].video);
+        }
+
+        // Step 3: Only send the upload request if there are files
+        if (formData) {
+          // Send the form data containing either a photo or a video
+          console.log('addGallery_image_200', formData);
+          await axiosInstance.post(
+            API_ENDPOINT.UPLOAD_PHOTO(data.data), // The API endpoint, with gallery ID
+            formData, // The formData containing the files
+          );
+        }
+
+        console.log('addGallery_image', data);
+      }
+
+      // Success toast notification
+      toast.success(GALLERY_LIST.GALLERY_LIST_SUCCESS);
+      return data;
+    } catch (error) {
+      // Error handling
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 export const updateGalleryList = createAsyncThunk(
   'galleryList/updateGalleryList',
   async ({ id, payload }) => {
@@ -130,10 +175,13 @@ export const updateGalleryList = createAsyncThunk(
 export const deleteGalleryList = createAsyncThunk(
   'galleryList/deleteGalleryList',
   async (id) => {
-    console.log('id', id);
+    console.log('Deleting image for:', id);
     const eventId = id?._id;
-    const image_name = id.photo.split('uploads/');
-    const video_name = id.video.split('uploads/');
+    // const image_name = id.photo.split('uploads/');
+    // const video_name = id.video.split('uploads/');
+    const img = id?.photo;
+    const vid = id?.video;
+    console.log('Deleting image data:', eventId, img, vid);
 
     try {
       const { data } = await axiosInstance.post(
@@ -144,7 +192,7 @@ export const deleteGalleryList = createAsyncThunk(
           PhotoUrl: id?.photo,
         });
       }
-      if (data && video_name[1]) {
+      if (data && vid[1]) {
         await axiosInstance.post(API_ENDPOINT.DELETE_PHOTO, {
           PhotoUrl: id?.video,
         });

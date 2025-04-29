@@ -32,7 +32,7 @@ const GalleryList = () => {
     id: null,
     name: '',
     description: null,
-    type: null,
+    type: '',
     photo: null,
     video: null,
   });
@@ -94,7 +94,7 @@ const GalleryList = () => {
       id: null,
       name: '',
       description: null,
-      type: null,
+      type: '',
       photo: null,
       video: null,
     };
@@ -124,6 +124,8 @@ const GalleryList = () => {
         video: galleryData.video || defaultValues.video, // Include existing video if not updated
       },
     ];
+
+    console.log('GalleryList Payload', payload);
 
     try {
       console.log('Hello');

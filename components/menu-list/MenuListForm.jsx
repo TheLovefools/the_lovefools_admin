@@ -6,14 +6,17 @@ import Button from '@/components/common/Button';
 import FormProvider from '@/components/common/FormProvider';
 import { reciptSchema } from '@/schema/receipt/receipt';
 import ControllerTextArea from '../common/ControllerTextArea';
-import { generateOptions } from '@/utils/utils';
+import {
+  findSingleSelectedValueLabelOption,
+  generateOptions,
+} from '@/utils/utils';
 import { menuType, subMenuType } from '@/utils/constant';
 import {
   ArrowUpTrayIcon,
   EyeIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ControllerSelect from '../common/ControllerSelect';
 import { menuSchema } from '@/schema/menu-list/menuList';
 
@@ -40,9 +43,12 @@ const MenuListForm = ({
     formState: { isSubmitting, errors },
     getValues,
     watch,
+    clearErrors,
   } = methods;
 
   const onSubmit = async (data) => {
+    console.log('errors_', errors);
+    console.log('MenuListForm data:', data);
     handleMenuSubmit(data);
   };
 
@@ -67,6 +73,16 @@ const MenuListForm = ({
       }
     }
   };
+
+  let setFixedAsSetMenu = findSingleSelectedValueLabelOption(
+    generateOptions(menuType, 'id', 'type'),
+    '2',
+  );
+
+  useEffect(() => {
+    console.log('value menuType_', setFixedAsSetMenu);
+    setValue('menuType', setFixedAsSetMenu);
+  }, []);
 
   return (
     <FormProvider
@@ -104,6 +120,9 @@ const MenuListForm = ({
               placeholder='Select menu type'
               options={generateOptions(menuType, 'id', 'type')}
               label='Type'
+              isDisabled={true}
+              value={setFixedAsSetMenu}
+              // defaultValue={setFixedAsSetMenu}
             />
           </div>
           <div className='grid gap-4'>

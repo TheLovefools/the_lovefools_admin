@@ -6,7 +6,12 @@ import Button from '@/components/common/Button';
 import FormProvider from '@/components/common/FormProvider';
 import ControllerTextArea from '../common/ControllerTextArea';
 import { generateOptions } from '@/utils/utils';
-import { eventType, statusType, subMenuType } from '@/utils/constant';
+import {
+  enquiryFor,
+  eventType,
+  statusType,
+  subMenuType,
+} from '@/utils/constant';
 import {
   ArrowUpTrayIcon,
   EyeIcon,
@@ -36,6 +41,7 @@ const EventEnquiryForm = ({
   const { handleSubmit } = methods;
 
   const onSubmit = async (data) => {
+    console.log('enquiry_form_data_', data);
     handleEventListSubmit(data);
   };
 
@@ -44,37 +50,62 @@ const EventEnquiryForm = ({
       methods={methods}
       onSubmit={handleSubmit(onSubmit)}>
       <div className='container mx-auto'>
-        <div className='grid gap-4'>
-          <div className='grid gap-4'>
-            <ControllerTextField
-              type='text'
-              placeholder='Enter name '
-              name='name'
-              label='Name'
-            />
-          </div>
+        <div className='grid grid-cols-2 gap-4'>
           <div className='grid gap-4'>
             <ControllerDatePicker
               placeholder='Enter Date '
-              name='date'
+              name='event_date'
               label='Date'
             />
           </div>{' '}
           <div className='grid gap-4'>
             <ControllerDateTimePicker
-              name='time'
+              name='event_time'
               label='Time'
             />
           </div>
-          <div className='grid gap-4'>
+          <div className='col-span-2 grid gap-4'>
+            <ControllerTextField
+              type='text'
+              placeholder='Enter Event name'
+              name='event_name'
+              label='Event Name'
+            />
+          </div>
+          <div className='col-span-2 grid gap-4'>
+            <ControllerTextField
+              type='text'
+              placeholder='Enter Contact Number'
+              name='event_mobile'
+              label='Mobile'
+            />
+          </div>
+          <div className='col-span-2 grid gap-4'>
+            <ControllerTextField
+              type='text'
+              placeholder='Enter Email'
+              name='event_email'
+              label='Email'
+            />
+          </div>
+          <div className='col-span-2 grid gap-4'>
+            <ControllerSelect
+              options={generateOptions(enquiryFor, 'value', 'type')}
+              // options={eventOptions}
+              placeholder='Enquiry For'
+              name='event_enquiry_option'
+              label='Enquiry For'
+            />
+          </div>
+          <div className='col-span-2 grid gap-4'>
             <ControllerTextArea
               type='text'
               placeholder='Enter description '
-              name='description'
+              name='event_description'
               label='Description'
             />
           </div>
-          <div className='grid gap-4'>
+          <div className='col-span-2 grid gap-4'>
             <ControllerSelect
               name='event_type'
               placeholder='Select event type'
@@ -82,7 +113,7 @@ const EventEnquiryForm = ({
               label='Event Type'
             />
           </div>
-          <div className='flex justify-end space-x-4'>
+          <div className='justify-space-between col-span-2 my-3 flex space-x-4'>
             <Button
               type='button'
               variant='bordered'

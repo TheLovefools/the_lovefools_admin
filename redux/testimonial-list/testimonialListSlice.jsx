@@ -76,13 +76,19 @@ export const addTestimonialList = createAsyncThunk(
 
 export const updateTestimonialList = createAsyncThunk(
   'testimonialList/updateTestimonialList',
-  async ({ id, payload }) => {
-    const imageName = id?.photo?.split('uploads/')[1];
+  async ({ id, payload }, { rejectWithValue }) => {
+    // const imageName = id.photo?.split('uploads/')[1];
+    const imageName = id?.photo;
+    console.log('Updating image for:', id);
+    console.log('Updating image data:', imageName);
+
     try {
       const { data } = await axiosInstance.post(
         API_ENDPOINT.UPDATE_TESTIMONIAL_LIST(id.id),
         payload[0],
       );
+
+      console.log('updateTestimonialList_1', data, payload, payload[1]);
 
       if (data) {
         await axiosInstance.post(API_ENDPOINT.DELETE_PHOTO, {
@@ -93,10 +99,12 @@ export const updateTestimonialList = createAsyncThunk(
           formDataApi(payload[1].photo),
         );
       }
+
       toast.success(TESTIMONIAL_LIST.TESTIMONIAL_LIST_UPDATE);
       return data;
     } catch (error) {
-      console.log(error);
+      console.error('Error updating Ala Carte Menu:', error);
+      return rejectWithValue(error.message);
     }
   },
 );
@@ -104,21 +112,24 @@ export const updateTestimonialList = createAsyncThunk(
 export const deleteTestimonialList = createAsyncThunk(
   'testimonialList/deleteTestimonialList',
   async (id, { rejectWithValue }) => {
-    try {
-      const eventId = id._id;
-      const imageName = id.photo?.split('uploads/')[1];
+    const eventId = id._id;
+    // const imageName = id.photo?.split('uploads/')[1];
+    const img = id?.photo;
+    console.log('Deleting image for:', id);
+    console.log('Deleting image data:', eventId, img);
 
+    try {
       // Delete the testimonial
       const { data } = await axiosInstance.post(
         API_ENDPOINT.DELETE_TESTIMONIAL_LIST(eventId),
       );
 
-      if (imageName) {
+      if (data) {
         await axiosInstance.post(API_ENDPOINT.DELETE_PHOTO, {
-          PhotoUrl: imageName,
+          PhotoUrl: img,
         });
       }
-
+      toast.success(TESTIMONIAL_LIST.TESTIMONIAL_LIST_DELETED);
       return data;
     } catch (error) {
       console.error('Error deleting testimonial:', error);

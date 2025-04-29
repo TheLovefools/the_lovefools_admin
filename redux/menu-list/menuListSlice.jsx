@@ -101,7 +101,8 @@ export const updateMenu = createAsyncThunk(
 
 export const deleteMenu = createAsyncThunk('menu/deleteMenu', async (id) => {
   const eventId = id?._id;
-  const image_name = id?.photo?.split('uploads/');
+  // const image_name = id?.photo?.split('uploads/');
+  const image_name = id?.photo;
   try {
     const { data } = await axiosInstance.post(
       API_ENDPOINT.DELETE_MENU_LIST(eventId),
@@ -109,7 +110,7 @@ export const deleteMenu = createAsyncThunk('menu/deleteMenu', async (id) => {
 
     if (data && image_name) {
       await axiosInstance.post(API_ENDPOINT.DELETE_PHOTO, {
-        PhotoUrl: id?.photo,
+        PhotoUrl: image_name,
       });
     }
     toast.success(MENU_LIST.MENU_LIST_DELETED);

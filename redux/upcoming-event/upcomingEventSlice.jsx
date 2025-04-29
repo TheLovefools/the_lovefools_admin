@@ -107,7 +107,7 @@ export const deleteUpcomingEventList = createAsyncThunk(
   'upcomingEventList/deleteUpcomingEventList',
   async ({ id }) => {
     const eventId = id?._id;
-    const image_name = id.photo.split('uploads/');
+    // const image_name = id.photo.split('uploads/');
     try {
       const { data } = await axiosInstance.post(
         API_ENDPOINT.DELETE_UPCOMING_EVENT_LIST(eventId),
