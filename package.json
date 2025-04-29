@@ -3,9 +3,9 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev",
+		"dev": "next dev -p 8080",
 		"build": "next build",
-		"start": "next start",
+		"start": "next start -p 8080",
 		"lint": "next lint",
 		"format": "npx prettier --write .",
 		"prepare": "husky install"
@@ -22,6 +22,7 @@
 		"@reduxjs/toolkit": "^2.0.1",
 		"@typescript-eslint/eslint-plugin": "^6.19.0",
 		"axios": "^1.7.2",
+		"bson": "^6.10.3",
 		"chart.js": "^4.4.2",
 		"cookies-next": "^4.1.0",
 		"date-fns": "^3.1.0",
