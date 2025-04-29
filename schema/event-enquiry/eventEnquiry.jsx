@@ -16,9 +16,9 @@ export const enquiryListSchema = Yup.object().shape({
     .required('Email is required')
     .email('Please enter a valid email address'),
   event_enquiry_option: Yup.object({
-    label: Yup.string().required('Label is required'),
-    value: Yup.string().required('Value is required'),
-  }).nullable(),
+    label: Yup.string(),
+    value: Yup.string(),
+  }).required('Enquiry Option is required'),
 });
 
 // event_Name: { type: String},
@@ -30,3 +30,12 @@ export const enquiryListSchema = Yup.object().shape({
 // event_Mobile: {type: String, required: false, match: [/^\d{10}$/, 'Mobile number must be 10 digits']},
 // event_Email: {type: String, required: false, match: [/.+\@.+\..+/, 'Please fill a valid email address']},
 // event_Enquiry_Option: {type: EnquiryOptionSchema, required: false},
+
+// event_name:
+// event_description:
+// event_date:
+// event_time:
+// event_type:
+// event_mobile:
+// event_email:
+// event_enquiry_option:

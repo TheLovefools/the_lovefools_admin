@@ -62,6 +62,8 @@ export const addUpcomingEventList = createAsyncThunk(
         eventListDetails[0],
       );
 
+      console.log('addUpcomingEventList_slice', data);
+
       if (data) {
         await axiosInstance.post(
           API_ENDPOINT.UPLOAD_PHOTO(data.data),
@@ -85,6 +87,8 @@ export const updateUpcomingEventList = createAsyncThunk(
         API_ENDPOINT.UPDATE_UPCOMING_EVENT_LIST(id.id),
         payload[0],
       );
+
+      console.log('updateUpcomingEventList_slice', data);
 
       if (data) {
         await axiosInstance.post(API_ENDPOINT.DELETE_PHOTO, {

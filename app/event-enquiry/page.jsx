@@ -22,6 +22,7 @@ import {
 import EventListForm from '../../components/event-list/eventListForm';
 import { formatDate } from '@/utils/formatTime';
 import {
+  convertToAmPm,
   findSingleSelectedValueLabelOption,
   generateOptions,
 } from '@/utils/utils';
@@ -256,7 +257,7 @@ const EventEnquiryList = () => {
                   {row.event_Date ? formatDate(row.event_Date) : '-'}
                 </TableCell>
                 <TableCell>
-                  {row.event_Time ? formatDate(row.event_Time) : '-'}
+                  {row.event_Time ? convertToAmPm(row.event_Time) : '-'}
                 </TableCell>
                 <TableCell>
                   {row.event_Mobile ? row.event_Mobile : '-'}

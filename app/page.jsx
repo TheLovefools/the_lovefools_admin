@@ -22,6 +22,7 @@ import {
 } from '@/redux/receipt/receiptSlice';
 import {
   convertTimeObjectToString,
+  convertToAmPm,
   findSingleSelectedValueLabelOption,
   generateOptions,
 } from '@/utils/utils';
@@ -273,7 +274,7 @@ const ReceiptList = () => {
               id: 'date',
               label: 'Date',
             },
-            { id: 'Time', label: 'Time' },
+            { id: 'Time', label: 'Time  ' },
             { id: 'price', label: 'Price' },
             { id: 'room', label: 'Room' },
             { id: 'table_number', label: 'Table Number' },
@@ -306,7 +307,9 @@ const ReceiptList = () => {
                     : '-'}
                 </TableCell>
                 <TableCell>{row.date ? formatDate(row.date) : '-'}</TableCell>
-                <TableCell>{row.time}</TableCell>
+                <TableCell>
+                  {row.time ? convertToAmPm(row.time) : '-'}
+                </TableCell>
                 <TableCell>{row.price}</TableCell>
                 <TableCell>
                   {row.room

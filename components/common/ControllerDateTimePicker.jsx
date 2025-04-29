@@ -24,8 +24,20 @@ const ControllerDateTimePicker = ({ name, ...rest }) => {
               placeHolder={'select'}
               errorMessage={error?.message}
               onChange={(date) => {
-                if (date) onChange(date);
+                if (date) {
+                  onChange(date);
+                  console.log('ControllerDateTimePicker_', date);
+                }
               }}
+              // onChange={(date) => {
+              //   if (date) {
+              //     const hours = String(date.getHours()).padStart(2, '0');
+              //     const minutes = String(date.getMinutes()).padStart(2, '0');
+              //     const seconds = String(date.getSeconds()).padStart(2, '0');
+              //     const formatted = `${hours}:${minutes}:${seconds}`;
+              //     onChange(formatted);
+              //   }
+              // }}
               onBlur={onBlur}
               {...rest}
             />

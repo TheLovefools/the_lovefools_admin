@@ -31,7 +31,7 @@ const UpcomingEventForm = ({
     defaultValues,
     mode: 'onBlur',
   });
-  const image_name = defaultValues?.photo?.split('uploads/');
+  // const image_name = defaultValues?.photo?.split('uploads/');
 
   const [fileName, setfileName] = useState(null);
   const updateFileName = (name) => {
@@ -51,8 +51,11 @@ const UpcomingEventForm = ({
   } = methods;
 
   const onSubmit = async (data) => {
+    console.log('UpcomingEventForm FormData_', data);
     handleEventListSubmit(data);
   };
+
+  console.log('Formerrors_', errors, defaultValues);
 
   const handleImageUpload = async (name, event) => {
     const { files } = event.target;

@@ -137,6 +137,8 @@ const UpcomingEventList = () => {
       },
     ];
 
+    console.log('UpcomingEventForm PayloadData_', eventData, payload);
+
     try {
       if (!defaultValues.current.id) {
         const data = await dispatch(addUpcomingEventList(payload));

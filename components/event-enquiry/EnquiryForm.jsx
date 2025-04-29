@@ -5,7 +5,10 @@ import ControllerTextField from '@/components/common/ControllerTextField';
 import Button from '@/components/common/Button';
 import FormProvider from '@/components/common/FormProvider';
 import ControllerTextArea from '../common/ControllerTextArea';
-import { generateOptions } from '@/utils/utils';
+import {
+  findSingleSelectedValueLabelOption,
+  generateOptions,
+} from '@/utils/utils';
 import {
   enquiryFor,
   eventType,
@@ -17,7 +20,7 @@ import {
   EyeIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ControllerSelect from '../common/ControllerSelect';
 import { Tooltip } from '@nextui-org/react';
 import ControllerDatePicker from '../common/ControllerDatePicker';
@@ -38,7 +41,12 @@ const EventEnquiryForm = ({
     mode: 'onBlur',
   });
 
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { isSubmitting, errors },
+    trigger,
+    getValues,
+  } = methods;
 
   const onSubmit = async (data) => {
     console.log('enquiry_form_data_', data);
@@ -90,7 +98,7 @@ const EventEnquiryForm = ({
           </div>
           <div className='col-span-2 grid gap-4'>
             <ControllerSelect
-              options={generateOptions(enquiryFor, 'value', 'type')}
+              options={generateOptions(enquiryFor, 'id', 'type')}
               // options={eventOptions}
               placeholder='Enquiry For'
               name='event_enquiry_option'
