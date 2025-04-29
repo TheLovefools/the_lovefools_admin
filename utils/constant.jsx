@@ -1,8 +1,7 @@
-export const NEXT_PUBLIC_API_URL =
-  'https://api.thelovefools.in/api/user/';
+export const NEXT_PUBLIC_API_URL = 'https://api.thelovefools.in/api/user/';
 
 //export const NEXT_PUBLIC_API_URL =
- // 'https://lovefools-backend.vercel.app/api/user/';
+// 'https://lovefools-backend.vercel.app/api/user/';
 
 // export const NEXT_PUBLIC_API_URL = 'http://localhost:5000/api/user/';
 
@@ -38,10 +37,17 @@ export const API_ENDPOINT = {
   UPDATE_MENU_LIST: (id) => `updateMenu/${id}`,
   DELETE_MENU_LIST: (id) => `deleteMenu/${id}`,
   GET_MENU_LIST: 'getMenuList',
+
   ADD_GALLERY_LIST: 'addGallery',
   UPDATE_GALLERY_LIST: (id) => `updateGallery/${id}`,
   DELETE_GALLERY_LIST: (id) => `deleteGallery/${id}`,
   GET_GALLERY_LIST: 'getGalleryList',
+
+  ADD_ALA_CARTE_LIST: 'addAlaCarteMenu',
+  UPDATE_ALA_CARTE_LIST: (id) => `updateAlaCarteMenu/${id}`,
+  DELETE_ALA_CARTE_LIST: (id) => `deleteAlaCarteMenu/${id}`,
+  GET_ALA_CARTE_LIST: 'getAlaCarteMenu',
+
   ADD_TESTIMONIAL_LIST: 'addTestimonial',
   UPDATE_TESTIMONIAL_LIST: (id) => `updateTestimonial/${id}`,
   DELETE_TESTIMONIAL_LIST: (id) => `deleteTestimonial/${id}`,
@@ -131,6 +137,12 @@ export const GALLERY_LIST = {
   GALLERY_LIST_UPDATE: 'Gallery list updated successfully',
 };
 
+export const ALA_CARTE_LIST = {
+  ALA_CARTE_LIST_DELETED: 'Gallery list deleted successfully',
+  ALA_CARTE_LIST_SUCCESS: 'Gallery list created successfully',
+  ALA_CARTE_LIST_UPDATE: 'Gallery list updated successfully',
+};
+
 export const TESTIMONIAL_LIST = {
   TESTIMONIAL_LIST_DELETED: 'Testimonial list deleted successfully',
   TESTIMONIAL_LIST_SUCCESS: 'Testimonial list created successfully',
@@ -152,6 +164,7 @@ export const CONFIRMATION_MESSAGES = {
   USER_LIST_DELETE: 'Are you sure want to delete this user list?',
   EVENT_LIST_DELETE: 'Are you sure want to delete this event list?',
   GALLERY_LIST_DELETE: 'Are you sure want to delete this gallery list?',
+  ALA_CARTE_LIST_DELETE: 'Are you sure want to delete this ala carte menu?',
   TESTIMONIAL_LIST_DELETE: 'Are you sure want to delete this testimonial list?',
   ROOM_LIST_DELETE: 'Are you sure want to delete this room list?',
   MENU_LIST_DELETE: 'Are you sure want to delete this menu?',
@@ -162,9 +175,32 @@ export const CONFIRMATION_MESSAGES = {
 export const formDataApi = (file) => {
   const formData = new FormData();
   formData.append('file', file);
-
   return formData;
 };
+
+// export const formDataApi = (files = {}) => {
+//   const formData = new FormData();
+//   Object.entries(files).forEach(([fieldName, file]) => {
+//     if (file) {
+//       formData.append(fieldName, file);
+//     }
+//   });
+//   return formData;
+// };
+
+// export const formDataApiMultiple = (files) => {
+//   console.log('formDataApi_ - Files:', files);
+//   const formData = new FormData();
+//   if (Array.isArray(files)) {
+//     files.forEach((file) => {
+//       formData.append('files', file); // <-- use 'files' (plural)
+//     });
+//   } else if (files) {
+//     formData.append('files', files); // <-- for single file
+//   }
+//   console.log('formDataApi_2', formData);
+//   return formData;
+// };
 
 export const menuType = [
   {
@@ -223,5 +259,24 @@ export const eventType = [
   {
     id: '2',
     type: 'Upcoming Event',
+  },
+];
+
+export const enquiryFor = [
+  {
+    id: '0',
+    type: 'Big Event',
+  },
+  {
+    id: '1',
+    type: 'Get Together',
+  },
+  {
+    id: '2',
+    type: 'Party',
+  },
+  {
+    id: '3',
+    type: 'Other',
   },
 ];

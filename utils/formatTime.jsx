@@ -1,4 +1,6 @@
 import { getTime } from 'date-fns';
+import { format } from 'date-fns';
+import { toZonedTime, formatInTimeZone } from 'date-fns-tz';
 import {
   DateValue,
   parseAbsoluteToLocal,
@@ -9,22 +11,21 @@ import {
   getLocalTimeZone,
   toZoned,
 } from '@internationalized/date';
-import { format, toZonedTime } from 'date-fns-tz';
 
+// ✅ Corrected: Use formatInTimeZone for timezone-safe formatting
 export function datepickerFormatDate(date) {
-  const nyDate = toZonedTime(date, 'Asia/Kolkata');
-
-  return format(nyDate, 'yyyy-MM-dd HH:mm:ss', {
-    timeZone: 'Asia/Kolkata',
-  });
+  return formatInTimeZone(date, 'Asia/Kolkata', 'yyyy-MM-dd HH:mm:ss');
 }
 
-export function formatDate(date) {
-  const nyDate = toZonedTime(date, 'Asia/Kolkata');
+// export function formatDate(date) {
+//   return formatInTimeZone(date, 'Asia/Kolkata', 'dd/MM/yyyy');
+// }
 
-  return format(nyDate, 'dd/MM/yyyy', {
-    timeZone: 'Asia/Kolkata',
-  });
+export function formatDate(date) {
+  if (!date) return ''; // handle empty
+  const validDate = new Date(date);
+  if (isNaN(validDate)) return ''; // handle invalid date
+  return formatInTimeZone(validDate, 'Asia/Kolkata', 'dd/MM/yyyy');
 }
 
 export function formatDateTime(date) {
@@ -40,7 +41,7 @@ export function formatDateTimeSuffix(date) {
 }
 
 export function formatTime(time) {
-  return time.toLocaleTimeString();
+  return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
 export function convertUTCToTime(utcString) {
@@ -62,6 +63,7 @@ export function findTimeDifference(currentTime, checkInTime) {
 
   const hours = Math.floor(timeDiffMs / (1000 * 60 * 60));
   const minutes = Math.floor((timeDiffMs % (1000 * 60 * 60)) / (1000 * 60));
+
   const hr = `${hours}`.padStart(2, '0');
   const min = `${minutes}`.padStart(2, '0');
 
@@ -69,30 +71,31 @@ export function findTimeDifference(currentTime, checkInTime) {
 }
 
 export function formatDateTimeConvert(inputDateString) {
-  const formatDate = parseAbsoluteToLocal(inputDateString);
-  return formatDate;
-}
-
-export function convertToDD_MM_YYYY_HHMMSS(inputDate) {
-  // DD/MM/YYYY HH:MM:ss
-
-  inputDate = inputDate?.includes('+')
-    ? inputDate?.replace(inputDate?.substring(inputDate?.indexOf('+')), '')
-    : inputDate;
-
-  const dateTime = inputDate?.split('T');
-  const DateSplit =
-    dateTime[0]?.split('-')?.reverse()?.join('/') + ' ' + dateTime[1];
-  return DateSplit;
+  return parseAbsoluteToLocal(inputDateString);
 }
 
 export function formatDateConvert(inputDateString) {
-  const formatDate = parseAbsoluteToLocal(inputDateString);
-  return formatDate;
+  return parseAbsoluteToLocal(inputDateString);
+}
+
+export function convertToDD_MM_YYYY_HHMMSS(inputDate) {
+  if (!inputDate) return '';
+
+  inputDate = inputDate.includes('+')
+    ? inputDate.replace(inputDate.substring(inputDate.indexOf('+')), '')
+    : inputDate;
+
+  const [datePart, timePart] = inputDate.split('T');
+  if (!datePart || !timePart) return '';
+
+  const formattedDate =
+    datePart.split('-').reverse().join('/') + ' ' + timePart;
+  return formattedDate;
 }
 
 export const convertToDateFormat = (date) => {
   let calendarDate;
+
   if (typeof date === 'string' && date.includes('T')) {
     const zonedDateTime = parseZonedDateTime(date);
     calendarDate = toCalendarDate(zonedDateTime);
@@ -120,10 +123,12 @@ export const convertToDateFormat = (date) => {
 
 const isValidDateFormat = (dateStr) => {
   const parts = dateStr.split('-');
-  if (parts.length !== 3) return false; // Check if there are three parts (year, month, day)
+  if (parts.length !== 3) return false;
+
   const [year, month, day] = parts.map(Number);
-  if (isNaN(year) || isNaN(month) || isNaN(day)) return false; // Check if all parts are numbers
-  const dateObj = new Date(year, month - 1, day); // Note: month is 0-based in JavaScript Date object
+  if (isNaN(year) || isNaN(month) || isNaN(day)) return false;
+
+  const dateObj = new Date(year, month - 1, day);
   return (
     dateObj.getFullYear() === year &&
     dateObj.getMonth() === month - 1 &&
@@ -132,23 +137,18 @@ const isValidDateFormat = (dateStr) => {
 };
 
 export const convertDateToZoned = (dateStr) => {
-  // Regular expression to check if date is in dd-mm-yyyy format
   let zonedDateTime;
 
   if (isValidDateFormat(dateStr)) {
     const [year, month, day] = dateStr.split('-').map(Number);
     const calendarDate = new CalendarDate(year, month, day);
 
-    // Get the local time zone of the user
     const localTimeZone = getLocalTimeZone();
 
-    // Convert the CalendarDate to ZonedDateTime in the local time zone
     zonedDateTime = toZoned(calendarDate, localTimeZone);
   } else {
-    // Otherwise, parse the date as ISO 8601 format
     zonedDateTime = parseZonedDateTime(dateStr);
   }
 
-  // Return the ZonedDateTime in the target time zone
   return zonedDateTime;
 };

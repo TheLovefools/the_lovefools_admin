@@ -324,3 +324,50 @@ export const formatDateForApi = (date) => {
 
   return `${year}-${month}-${day}`; // Format as YYYY-MM-DD
 };
+
+export const formatTimeObjectTo24HourString = (timeObj) => {
+  if (!timeObj) return '';
+
+  let { hour, minute, meridiem } = timeObj;
+
+  if (meridiem === 'PM' && hour < 12) {
+    hour += 12;
+  }
+  if (meridiem === 'AM' && hour === 12) {
+    hour = 0;
+  }
+
+  const hourStr = `${hour}`.padStart(2, '0');
+  const minuteStr = `${minute}`.padStart(2, '0');
+
+  return `${hourStr}:${minuteStr}:00`; // with seconds as 00
+};
+
+export const parse24HourTimeStringToTimeObject = (timeString) => {
+  if (!timeString || typeof timeString !== 'string') return null; // 👈 check if string
+
+  const [hourStr, minuteStr] = timeString.split(':');
+  if (!hourStr || !minuteStr) return null; // 👈 safety check
+
+  let hour = parseInt(hourStr, 10);
+  const minute = parseInt(minuteStr, 10);
+
+  let meridiem = 'AM';
+
+  if (hour >= 12) {
+    meridiem = 'PM';
+    if (hour > 12) {
+      hour -= 12;
+    }
+  }
+  if (hour === 0) {
+    hour = 12;
+    meridiem = 'AM';
+  }
+
+  return {
+    hour,
+    minute,
+    meridiem, // 'AM' or 'PM'
+  };
+};

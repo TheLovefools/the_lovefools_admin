@@ -1,3 +1,7 @@
+import {
+  formatTimeObjectTo24HourString,
+  parse24HourTimeStringToTimeObject,
+} from '@/utils/utils';
 import { TimeInput } from '@nextui-org/react';
 
 const DateTimePicker = ({
@@ -10,6 +14,7 @@ const DateTimePicker = ({
   value,
   ...rest
 }) => {
+  const parsedValue = value ? parse24HourTimeStringToTimeObject(value) : null;
   return (
     <div className='flex w-full flex-row gap-4'>
       <TimeInput
@@ -17,14 +22,15 @@ const DateTimePicker = ({
         variant='bordered'
         hideTimeZone
         showMonthAndYearPickers
-        value={value}
+        value={parsedValue}
         labelPlacement='outside'
         isRequired={isRequired}
         isInvalid={isInvalid}
         errorMessage={errorMessage}
-        onChange={(time) => {
+        onChange={(timeObj) => {
           if (onChange) {
-            if (time) onChange(time);
+            const formattedTime = formatTimeObjectTo24HourString(timeObj);
+            onChange(formattedTime); // Save back 24-hour format
           }
         }}
         {...rest}

@@ -8,6 +8,8 @@ const ControllerSelect = ({
   options,
   multiple = false,
   handleInputChange,
+  isDisabled = false,
+  defaultValue = null,
   ...rest
 }) => {
   const { control } = useFormContext();
@@ -23,7 +25,9 @@ const ControllerSelect = ({
           isMulti={multiple}
           handleInputChange={handleInputChange}
           isInvalid={!!error}
+          isDisabled={isDisabled}
           errorMessage={error?.message}
+          defaultValue={defaultValue}
           {...field}
           {...rest}
         />

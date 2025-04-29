@@ -15,6 +15,7 @@ const persistConfig = {
     'eventEnquiryList',
     'eventList',
     'galleryList',
+    'alaCarteList',
     'menuList',
     'receipt',
     'roomList',

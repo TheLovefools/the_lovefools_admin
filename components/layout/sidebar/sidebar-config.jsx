@@ -19,9 +19,14 @@ const SidebarConfig = [
     href: '/',
   },
   {
-    name: 'Menu List',
+    name: 'Set Menu',
     icon: <MapIcon className='h-6 w-6' />,
     href: '/menu-list',
+  },
+  {
+    name: 'Ala Cart',
+    icon: <DocumentTextIcon className='h-6 w-6' />,
+    href: '/alacarte-list',
   },
   {
     name: 'Table List ',

@@ -7,7 +7,9 @@ const Select = ({
   isInvalid = false,
   errorMessage = '',
   label = '',
+  isDisabled = false,
   handleInputChange,
+  defaultValue = null,
   ...rest
 }) => {
   return (
@@ -24,6 +26,8 @@ const Select = ({
           onInputChange={handleInputChange}
           options={options}
           menuPlacement='auto'
+          isDisabled={isDisabled}
+          defaultValue={defaultValue}
           styles={{
             menu: (provided) => ({
               ...provided,
