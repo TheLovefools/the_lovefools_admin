@@ -328,3 +328,20 @@ input.file-upload-btn {
   display: block;
   min-width: 90px;
 }
+
+.pay-status {
+  display: inline-block;
+  background-color: #fbd1a2;
+  color: #222222;
+  padding: 4px 15px;
+  border-radius: 4px;
+  min-width: 100px;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #71717a;
+  &.success {
+    background-color: #70ae6e;
+  }
+}

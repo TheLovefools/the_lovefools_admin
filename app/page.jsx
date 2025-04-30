@@ -308,7 +308,10 @@ const ReceiptList = () => {
               <TableRow key={row.id}>
                 <TableCell>{row.orderId ? row.orderId : '-'}</TableCell>
                 <TableCell>
-                  {row.paymentSuccess === false ? 'Pending' : 'Paid'}
+                  <span
+                    className={`pay-status ${row.paymentSuccess === true ? 'success' : ''}`}>
+                    {row.paymentSuccess === false ? 'Pending' : 'Paid'}
+                  </span>
                 </TableCell>
                 <TableCell>{row.emailId}</TableCell>
                 <TableCell>{row.mobileNo}</TableCell>
