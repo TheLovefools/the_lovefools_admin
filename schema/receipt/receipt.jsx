@@ -10,7 +10,7 @@ export const reciptSchema = Yup.object().shape({
   date: Yup.string().required('Date is required'),
   time: Yup.object().required('Time is required'),
   price: Yup.string().required('Price is required'),
-  orderId: Yup.string().required('Price is required'),
+  orderId: Yup.string(),
   menuType: Yup.object({
     label: Yup.string(),
     value: Yup.string(),
@@ -27,4 +27,6 @@ export const reciptSchema = Yup.object().shape({
     label: Yup.string(),
     value: Yup.string(),
   }).required('Table Number is required'),
+  orderStatus: Yup.string().required('OrderStatus is required'),
+  paymentSuccess: Yup.boolean().required('Payment status is required'),
 });

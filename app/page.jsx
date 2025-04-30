@@ -38,6 +38,7 @@ const ReceiptList = () => {
   const dispatch = useAppDispatch();
   const defaultValues = useRef({
     id: null,
+    orderId: null,
     email: '',
     receiptName: null,
     room: null,
@@ -48,6 +49,8 @@ const ReceiptList = () => {
     time: null,
     menuType: null,
     subMenuType: null,
+    orderStatus: null,
+    paymentSuccess: false,
   });
 
   const { listParameters, data, total, loading } = useAppSelector(
@@ -90,6 +93,9 @@ const ReceiptList = () => {
 
     defaultValues.current = {
       id: row._id,
+      orderId: row.orderId,
+      orderStatus: row.orderStatus,
+      paymentSuccess: row.paymentSuccess,
       email: row.emailId,
       receiptName: findSingleSelectedValueLabelOption(
         generateOptions(menuList.data, '_id', 'menu_Name'),
@@ -136,6 +142,9 @@ const ReceiptList = () => {
   const toggleReciptFormModal = () => {
     defaultValues.current = {
       id: null,
+      orderId: null,
+      orderStatus: null,
+      paymentSuccess: false,
       email: '',
       receiptName: null,
       room: null,
@@ -250,17 +259,19 @@ const ReceiptList = () => {
                   <ArrowPathIcon className='h-5 w-5' />
                 </Tooltip>
               </Button>
-              <Button
+              {/* <Button
                 onClick={() => {
                   toggleReciptFormModal();
                 }}>
                 Add
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>
         <List
           columns={[
+            { id: 'orderId', label: 'order #' },
+            { id: 'paymentSuccess', label: 'Status' },
             { id: 'emailId', label: 'Email' },
             {
               id: 'mobileNo',
@@ -268,7 +279,7 @@ const ReceiptList = () => {
             },
             {
               id: 'receiptName',
-              label: 'Receipt Name',
+              label: 'Receipt No.',
             },
             {
               id: 'date',
@@ -295,9 +306,14 @@ const ReceiptList = () => {
           renderRow={(row) => {
             return (
               <TableRow key={row.id}>
+                <TableCell>{row.orderId ? row.orderId : '-'}</TableCell>
+                <TableCell>
+                  {row.paymentSuccess === false ? 'Pending' : 'Paid'}
+                </TableCell>
                 <TableCell>{row.emailId}</TableCell>
                 <TableCell>{row.mobileNo}</TableCell>
-                <TableCell>
+                <TableCell>{row.receiptName}</TableCell>
+                {/* <TableCell>
                   {row.receiptName
                     ? filterMenuList(
                         row.receiptName,
@@ -305,26 +321,36 @@ const ReceiptList = () => {
                         'menu_Name',
                       )
                     : '-'}
-                </TableCell>
+                </TableCell> */}
                 <TableCell>{row.date ? formatDate(row.date) : '-'}</TableCell>
                 <TableCell>
-                  {row.time ? convertToAmPm(row.time) : '-'}
+                  <span className='mintablecellwidth'>
+                    {row.time ? convertToAmPm(row.time) : '-'}
+                  </span>
                 </TableCell>
-                <TableCell>{row.price}</TableCell>
                 <TableCell>
+                  <span className='mintablecellwidth'>{row.price}</span>
+                </TableCell>
+                {/* <TableCell>
                   {row.room
                     ? filterMenuList(row.room, roomList.data, 'room_name')
                     : '-'}
-                </TableCell>
+                </TableCell> */}
+                <TableCell>{row.room ? row.room : '-'}</TableCell>
                 <TableCell>
-                  {row.table_number
-                    ? filterMenuList(
-                        row.table_number,
-                        getAllTables.data,
-                        'table_number',
-                      )
-                    : '-'}
+                  {row.table_number ? row.table_number : '-'}
                 </TableCell>
+                {/* <TableCell>
+                  <div className='text-center'>
+                    {row.table_number
+                      ? filterMenuList(
+                          row.table_number,
+                          getAllTables.data,
+                          'table_number',
+                        )
+                      : '-'}
+                  </div>
+                </TableCell> */}
                 <TableCell>
                   {row.type ? filterMenu(row.type, menuType) : '-'}
                 </TableCell>
