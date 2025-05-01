@@ -345,3 +345,11 @@ input.file-upload-btn {
     background-color: #70ae6e;
   }
 }
+
+.date-cell {
+  font: normal normal 600 14px/120% "Raleway, sans-serif";
+  font-family: "Raleway, sans-serif";
+  color: #777777;
+  font-family: inherit;
+  min-width: 160px;
+}

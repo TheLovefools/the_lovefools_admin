@@ -44,6 +44,10 @@ export function formatTime(time) {
   return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
+export function formatIndianDateTime(date) {
+  return formatInTimeZone(date, 'Asia/Kolkata', 'dd MMM yyyy - h:mm a');
+}
+
 export function convertUTCToTime(utcString) {
   if (!utcString) return '--:--';
   return new Date(utcString).toLocaleTimeString([], {

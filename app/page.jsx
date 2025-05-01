@@ -26,7 +26,11 @@ import {
   findSingleSelectedValueLabelOption,
   generateOptions,
 } from '@/utils/utils';
-import { formatDate } from '@/utils/formatTime';
+import {
+  formatDate,
+  formatDateTimeSuffix,
+  formatIndianDateTime,
+} from '@/utils/formatTime';
 import { getMenuList } from '@/redux/menu-list/menuListSlice';
 import { getRoomList } from '@/redux/room-list/roomSlice';
 import { getTableList } from '@/redux/table-list/tableListSlice';
@@ -64,7 +68,7 @@ const ReceiptList = () => {
   const menuList = useAppSelector((state) => state.menuList);
 
   useEffect(() => {
-    dispatch(getReceiptList({}));
+    dispatch(getReceiptList({ initialMeta }));
     dispatch(getMenuList({}));
     dispatch(getRoomList({}));
     dispatch(getTableList({ fetchAll: true, search: 'All' }));
@@ -79,8 +83,19 @@ const ReceiptList = () => {
     );
   };
 
+  const initialMeta = (meta) => {
+    dispatch(
+      getReceiptList({
+        ...meta,
+        search: meta.search,
+        sortBy: 'created_date',
+        sortOrder: 'desc',
+      }),
+    );
+  };
+
   const refreshBtn = () => {
-    dispatch(getReceiptList({}));
+    dispatch(getReceiptList({ initialMeta }));
     dispatch(getMenuList({}));
     dispatch(getRoomList({}));
     dispatch(getTableList({ fetchAll: true, search: 'All' }));
@@ -282,10 +297,14 @@ const ReceiptList = () => {
               label: 'Receipt No.',
             },
             {
-              id: 'date',
-              label: 'Date',
+              id: 'created_date',
+              label: 'Payment Date',
             },
-            { id: 'Time', label: 'Time  ' },
+            {
+              id: 'date',
+              label: 'Booking Date',
+            },
+            { id: 'Time', label: 'Booking Time  ' },
             { id: 'price', label: 'Price' },
             { id: 'room', label: 'Room' },
             { id: 'table_number', label: 'Table Number' },
@@ -325,9 +344,20 @@ const ReceiptList = () => {
                       )
                     : '-'}
                 </TableCell> */}
-                <TableCell>{row.date ? formatDate(row.date) : '-'}</TableCell>
                 <TableCell>
-                  <span className='mintablecellwidth'>
+                  <span className='mintablecellwidth date-cell'>
+                    {row.created_date
+                      ? formatIndianDateTime(row.created_date)
+                      : '-'}
+                  </span>
+                </TableCell>
+                <TableCell>
+                  <span className='date-cell'>
+                    {row.date ? formatDate(row.date) : '-'}
+                  </span>
+                </TableCell>
+                <TableCell>
+                  <span className='mintablecellwidth date-cell'>
                     {row.time ? convertToAmPm(row.time) : '-'}
                   </span>
                 </TableCell>
