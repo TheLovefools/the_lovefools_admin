@@ -102,15 +102,27 @@ const AlaCarteMenuList = () => {
   };
 
   const onSubmit = async (alaCarteData) => {
+    // const payload = [
+    //   {
+    //     ala_menu_Name: alaCarteData.ala_menu_name,
+    //     ala_menu_Description: alaCarteData.ala_menu_description,
+    //   },
+    //   {
+    //     photo: alaCarteData.photo || defaultValues.photo, // Include existing photo if not updated
+    //   },
+    // ];
+
     const payload = [
       {
         ala_menu_Name: alaCarteData.ala_menu_name,
         ala_menu_Description: alaCarteData.ala_menu_description,
       },
-      {
-        photo: alaCarteData.photo || defaultValues.photo, // Include existing photo if not updated
-      },
     ];
+
+    // Add photo only if user uploaded a new file
+    if (alaCarteData.photo instanceof File) {
+      payload.push({ photo: alaCarteData.photo });
+    }
 
     console.log('AlaCarteMenutForm Payload', payload);
 

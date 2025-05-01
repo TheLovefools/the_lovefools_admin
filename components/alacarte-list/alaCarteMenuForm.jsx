@@ -48,7 +48,9 @@ const AlaCarteMenutForm = ({
 
   const onSubmit = async (data) => {
     console.log('AlaCarteMenutForm Data', data);
-    handleAlaCarteMenuSubmit(data);
+    const values = getValues();
+    const updateData = { ...values };
+    handleAlaCarteMenuSubmit(updateData);
   };
 
   const handleImageUploadOld = async (name, event) => {

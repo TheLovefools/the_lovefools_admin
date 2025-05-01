@@ -51,7 +51,7 @@ export const getAlaCarteMenu = createAsyncThunk(
   },
 );
 
-export const addAlaCarteMenu = createAsyncThunk(
+export const addAlaCarteMenuOld = createAsyncThunk(
   'alaCarteList/addAlaCarteMenu',
   async (alaCarteMenuDetails, { rejectWithValue }) => {
     console.log('addAlaCarteMenu_0', alaCarteMenuDetails);
@@ -97,6 +97,51 @@ export const addAlaCarteMenu = createAsyncThunk(
   },
 );
 
+export const addAlaCarteMenu = createAsyncThunk(
+  'alaCarteList/addAlaCarteMenu',
+  async (alaCarteMenuDetails, { rejectWithValue }) => {
+    console.log('addAlaCarteMenu_0', alaCarteMenuDetails);
+    try {
+      // Step 1: Make API call to create the alaCarteMenu list
+      const { data } = await axiosInstance.post(
+        API_ENDPOINT.ADD_ALA_CARTE_LIST,
+        alaCarteMenuDetails[0], // First payload with details
+      );
+
+      console.log('addAlaCarteMenu_1', data);
+
+      if (data) {
+        let formData = null;
+
+        // 👉 Check if photo exists and is a File object or valid non-empty string
+        const photo = alaCarteMenuDetails[1].photo;
+        if (photo && typeof photo === 'object' && photo instanceof File) {
+          formData = formDataApi(photo);
+        }
+
+        // Step 3: Upload only if formData was prepared (photo exists)
+        if (formData) {
+          console.log('addAlaCarteMenu_image_200', formData);
+          await axiosInstance.post(
+            API_ENDPOINT.UPLOAD_PHOTO(data.data), // The new menu ID
+            formData,
+          );
+        } else {
+          console.log('No photo uploaded; skipping upload step.');
+        }
+
+        console.log('addAlaCarteMenu_image', alaCarteMenuDetails, data);
+      }
+
+      toast.success(ALA_CARTE_LIST.ALA_CARTE_LIST_SUCCESS);
+      return data;
+    } catch (error) {
+      console.log('addAlaCarteMenu_4', error.message);
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 export const updateAlaCarteMenu = createAsyncThunk(
   'alaCarteList/updateAlaCarteMenu',
   async ({ id, payload }, { rejectWithValue }) => {
@@ -110,16 +155,32 @@ export const updateAlaCarteMenu = createAsyncThunk(
 
       console.log('updateAlaCarteMenu_1', data, payload, payload[1]);
 
+      // if (data) {
+      //   const { photo, video } = payload[1];
+      //   if (photo) {
+      //     await axiosInstance.post(API_ENDPOINT.DELETE_PHOTO, {
+      //       PhotoUrl: id?.photo,
+      //     });
+      //     await axiosInstance.post(
+      //       API_ENDPOINT.UPLOAD_PHOTO(id.id),
+      //       formDataApi(photo),
+      //     );
+      //   }
+      // }
+
       if (data) {
         const { photo, video } = payload[1];
-        if (photo) {
+        if (photo && id?.photo) {
+          // Proceed only if there's a photo to delete
           await axiosInstance.post(API_ENDPOINT.DELETE_PHOTO, {
-            PhotoUrl: id?.photo,
+            PhotoUrl: id.photo, // Send the correct existing photo URL for deletion
           });
           await axiosInstance.post(
             API_ENDPOINT.UPLOAD_PHOTO(id.id),
             formDataApi(photo),
           );
+        } else {
+          console.log('No photo to delete or upload');
         }
       }
 
