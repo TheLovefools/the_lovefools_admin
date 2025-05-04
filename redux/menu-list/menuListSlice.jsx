@@ -85,7 +85,7 @@ export const updateMenu = createAsyncThunk(
         payload[0],
       );
 
-      if (data) {
+      if (data && payload[1]) {
         const { photo } = payload[1];
         // await axiosInstance.post(
         //   API_ENDPOINT.UPLOAD_PHOTO(data.data),

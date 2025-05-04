@@ -120,7 +120,7 @@ export const updateEventList = createAsyncThunk(
       //   );
       // }
 
-      if (data) {
+      if (data && payload[1]) {
         const { photo } = payload[1];
         if (photo && id?.photo) {
           // Proceed only if there's a photo to delete

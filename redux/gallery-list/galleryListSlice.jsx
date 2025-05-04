@@ -141,7 +141,7 @@ export const updateGalleryList = createAsyncThunk(
         payload[0],
       );
 
-      if (data) {
+      if (data && payload[1]) {
         const { photo, video } = payload[1];
         if (video) {
           await axiosInstance.post(API_ENDPOINT.DELETE_PHOTO, {

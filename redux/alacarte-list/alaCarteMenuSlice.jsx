@@ -168,7 +168,7 @@ export const updateAlaCarteMenu = createAsyncThunk(
       //   }
       // }
 
-      if (data) {
+      if (data && payload[1]) {
         const { photo, video } = payload[1];
         if (photo && id?.photo) {
           // Proceed only if there's a photo to delete
