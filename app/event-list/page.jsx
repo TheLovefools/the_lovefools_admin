@@ -122,7 +122,7 @@ const EventList = () => {
   };
 
   const onSubmit = async (eventData) => {
-    const payload = [
+    const payloadOld = [
       {
         event_Name: eventData.name,
         description: eventData.description,
@@ -134,6 +134,21 @@ const EventList = () => {
         photo: eventData.photo,
       },
     ];
+
+    const payload = [
+      {
+        event_Name: eventData.name,
+        description: eventData.description,
+        date: eventData.date,
+        time: eventData.time,
+        status: eventData.status ? eventData.status.value : null,
+      },
+    ];
+
+    // Add photo only if user uploaded a new file
+    if (eventData.photo instanceof File) {
+      payload.push({ photo: eventData.photo });
+    }
 
     try {
       if (!defaultValues.current.id) {
