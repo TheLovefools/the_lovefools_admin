@@ -64,16 +64,39 @@ export const addUpcomingEventList = createAsyncThunk(
 
       console.log('addUpcomingEventList_slice', data);
 
+      // if (data) {
+      //   await axiosInstance.post(
+      //     API_ENDPOINT.UPLOAD_PHOTO(data.data),
+      //     formDataApi(eventListDetails[1].photo),
+      //   );
+      // }
+
       if (data) {
-        await axiosInstance.post(
-          API_ENDPOINT.UPLOAD_PHOTO(data.data),
-          formDataApi(eventListDetails[1].photo),
-        );
+        let formData = null;
+        // 👉 Check if photo exists and is a File object or valid non-empty string
+        const photo = eventListDetails[1].photo;
+        if (photo && typeof photo === 'object' && photo instanceof File) {
+          formData = formDataApi(photo);
+        }
+
+        // Step 3: Upload only if formData was prepared (photo exists)
+        if (formData) {
+          console.log('addUpcomingEventList_image_200', formData);
+          await axiosInstance.post(
+            API_ENDPOINT.UPLOAD_PHOTO(data.data), // The new menu ID
+            formData,
+          );
+        } else {
+          console.log('No photo uploaded; skipping upload step.');
+        }
+
+        console.log('addUpcomingEventList_image', data);
       }
 
       toast.success(UPCOMING_EVENT_LIST.UPCOMING_EVENT_LIST_SUCCESS);
       return data;
     } catch (error) {
+      console.log('addUpcomingEventList Error:', error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -81,28 +104,45 @@ export const addUpcomingEventList = createAsyncThunk(
 
 export const updateUpcomingEventList = createAsyncThunk(
   'upcomingEventList/updateUpcomingEventList',
-  async ({ id, payload }) => {
+  async ({ id, payload }, { rejectWithValue }) => {
+    console.log('id', id);
     try {
       const { data } = await axiosInstance.post(
         API_ENDPOINT.UPDATE_UPCOMING_EVENT_LIST(id.id),
         payload[0],
       );
 
-      console.log('updateUpcomingEventList_slice', data);
+      // if (data) {
+      //   await axiosInstance.post(API_ENDPOINT.DELETE_PHOTO, {
+      //     PhotoUrl: id?.photo,
+      //   });
+      //   await axiosInstance.post(
+      //     API_ENDPOINT.UPLOAD_PHOTO(id.id),
+      //     formDataApi(payload[1].photo),
+      //   );
+      // }
 
-      if (data) {
-        await axiosInstance.post(API_ENDPOINT.DELETE_PHOTO, {
-          PhotoUrl: id?.photo,
-        });
-        await axiosInstance.post(
-          API_ENDPOINT.UPLOAD_PHOTO(id.id),
-          formDataApi(payload[1].photo),
-        );
+      if (data && payload[1]) {
+        const { photo } = payload[1];
+        if (photo && id?.photo) {
+          // Proceed only if there's a photo to delete
+          await axiosInstance.post(API_ENDPOINT.DELETE_PHOTO, {
+            PhotoUrl: id.photo, // Send the correct existing photo URL for deletion
+          });
+          await axiosInstance.post(
+            API_ENDPOINT.UPLOAD_PHOTO(id.id),
+            formDataApi(photo),
+          );
+        } else {
+          console.log('No photo to delete or upload');
+        }
       }
+
       toast.success(UPCOMING_EVENT_LIST.UPCOMING_EVENT_LIST_UPDATE);
       return data;
     } catch (error) {
-      console.log(error);
+      console.error('Error updating UpcomingEvent List:', error);
+      return rejectWithValue(error.message);
     }
   },
 );

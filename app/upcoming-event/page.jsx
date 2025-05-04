@@ -125,7 +125,7 @@ const UpcomingEventList = () => {
   }, [loading]);
 
   const onSubmit = async (eventData) => {
-    const payload = [
+    const payloadOld = [
       {
         event_Name: eventData.name,
         description: eventData.description,
@@ -136,6 +136,20 @@ const UpcomingEventList = () => {
         photo: eventData.photo,
       },
     ];
+
+    const payload = [
+      {
+        event_Name: eventData.name,
+        description: eventData.description,
+        date: eventData.date,
+        time: eventData.time,
+      },
+    ];
+
+    // Add photo only if user uploaded a new file
+    if (eventData.photo instanceof File) {
+      payload.push({ photo: eventData.photo });
+    }
 
     console.log('UpcomingEventForm PayloadData_', eventData, payload);
 

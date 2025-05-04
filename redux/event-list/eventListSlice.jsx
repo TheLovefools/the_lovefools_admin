@@ -76,7 +76,6 @@ export const addEventList = createAsyncThunk(
         if (photo && typeof photo === 'object' && photo instanceof File) {
           formData = formDataApi(photo);
         }
-
         // Step 3: Upload only if formData was prepared (photo exists)
         if (formData) {
           console.log('addEventList_image_200', formData);
@@ -87,8 +86,7 @@ export const addEventList = createAsyncThunk(
         } else {
           console.log('No photo uploaded; skipping upload step.');
         }
-
-        console.log('addEventList_image', alaCarteMenuDetails, data);
+        console.log('addEventList_image', data);
       }
 
       toast.success(EVENT_LIST.EVENT_LIST_SUCCESS);

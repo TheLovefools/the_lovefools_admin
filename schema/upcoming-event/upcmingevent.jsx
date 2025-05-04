@@ -6,11 +6,18 @@ export const upcomingListSchema = Yup.object().shape({
   time: Yup.string().required('Time is required'),
 
   description: Yup.string().required('Description is required'),
+  // photo: Yup.mixed()
+  //   .nullable()
+  //   .test(
+  //     'fileType',
+  //     'Invalid file type',
+  //     (value) => !value || value instanceof File,
+  //   ),
   photo: Yup.mixed()
     .nullable()
-    .test(
-      'fileType',
-      'Invalid file type',
-      (value) => !value || value instanceof File,
-    ),
+    .test('fileType', 'Invalid file type', (value) => {
+      if (!value) return true; // allow empty
+      if (typeof value === 'string') return true; // existing URL → valid
+      return value instanceof File; // validate only file uploads
+    }),
 });

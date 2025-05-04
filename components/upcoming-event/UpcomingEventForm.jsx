@@ -34,13 +34,15 @@ const UpcomingEventForm = ({
   // const image_name = defaultValues?.photo?.split('uploads/');
 
   const [fileName, setfileName] = useState(null);
+  const [photoFileName, setPhotoFileName] = useState(null);
+
   const updateFileName = (name) => {
-    setfileName(name);
+    setPhotoFileName(name);
   };
 
-  useEffect(() => {
-    setValue('photo', fileName);
-  }, []);
+  // useEffect(() => {
+  //   setValue('photo', fileName);
+  // }, []);
 
   const {
     handleSubmit,
@@ -55,11 +57,10 @@ const UpcomingEventForm = ({
     handleEventListSubmit(data);
   };
 
-  console.log('Formerrors_', errors, defaultValues);
+  // console.log('Formerrors_', errors, defaultValues);
 
-  const handleImageUpload = async (name, event) => {
+  const handleImageUploadOld = async (name, event) => {
     const { files } = event.target;
-
     const selectedFile = files && files.length ? files[0] : '';
     if (selectedFile) {
       try {
@@ -70,7 +71,6 @@ const UpcomingEventForm = ({
             'Content-Type': 'multipart/form-data',
           },
         };
-
         setValue(name, selectedFile);
         clearErrors(name);
       } catch (error) {
@@ -79,7 +79,24 @@ const UpcomingEventForm = ({
     }
   };
 
-  console.log('loading', loading);
+  const handleImageUpload = async (name, event) => {
+    const { files } = event.target;
+    const selectedFile = files && files.length ? files[0] : '';
+    if (selectedFile) {
+      try {
+        setValue(name, selectedFile); // Update the form state with the selected file
+        const fileName = selectedFile.name;
+        setPhotoFileName(fileName); // Update the photo file name
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    }
+  };
+
+  const handleClearFile = (name, setter) => {
+    setter(''); // Clear file name state
+    setValue(name, ''); // Reset form value for file input
+  };
 
   return (
     <FormProvider
@@ -155,14 +172,13 @@ const UpcomingEventForm = ({
                 {getValues('photo') && (
                   <>
                     <span className='m-1'>
-                      {fileName ? fileName : defaultValues?.photo}
+                      {photoFileName ? photoFileName : defaultValues?.photo}
                     </span>
                     <span className='w-1/6'>
                       <Button
-                        onClick={() => {
-                          setfileName('');
-                          setValue('photo', '');
-                        }}
+                        onClick={() =>
+                          handleClearFile('photo', setPhotoFileName)
+                        }
                         className='float-right'
                         isIconOnly
                         type='button'
