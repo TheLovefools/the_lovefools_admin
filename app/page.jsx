@@ -68,7 +68,7 @@ const ReceiptList = () => {
   const menuList = useAppSelector((state) => state.menuList);
 
   useEffect(() => {
-    dispatch(getReceiptList({ initialMeta }));
+    dispatch(getReceiptList({}));
     dispatch(getMenuList({}));
     dispatch(getRoomList({}));
     dispatch(getTableList({ fetchAll: true, search: 'All' }));
@@ -83,19 +83,8 @@ const ReceiptList = () => {
     );
   };
 
-  const initialMeta = (meta) => {
-    dispatch(
-      getReceiptList({
-        ...meta,
-        search: meta.search,
-        sortBy: 'created_date',
-        sortOrder: 'desc',
-      }),
-    );
-  };
-
   const refreshBtn = () => {
-    dispatch(getReceiptList({ initialMeta }));
+    dispatch(getReceiptList({}));
     dispatch(getMenuList({}));
     dispatch(getRoomList({}));
     dispatch(getTableList({ fetchAll: true, search: 'All' }));

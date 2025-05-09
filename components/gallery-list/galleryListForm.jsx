@@ -113,90 +113,24 @@ const GalleryListForm = ({
             />
           </div>
           <div className='grid grid-cols-1 gap-4'>
-            <div>
-              <h6
-                className={`mb-2 pt-1 text-small ${
-                  errors?.photo?.message ? 'text-red-500' : 'text-black'
-                }`}>
-                {watch('type')?.label === 'Video' ? 'Thumbnail' : 'Photo'}
-              </h6>
-              <div>
-                <input
-                  type='file'
-                  accept='image/*'
-                  name='detailReports'
-                  id='file-upload-button-for-photo'
-                  className='file-upload-btn mb-2 w-5/6'
-                  onChange={(e) => {
-                    handleImageUpload('photo', e);
-                    updateFileName(
-                      e.target.files ? e.target.files[0].name : '',
-                    );
-                  }}
-                />
-                <div className='flex'>
-                  <div
-                    className='mb-4 flex'
-                    id='file-upload-label'>
-                    <label
-                      htmlFor='file-upload-button-for-photo'
-                      className='flex-initial cursor-pointer'>
-                      <div className='relative h-0 w-5'>
-                        <ArrowUpTrayIcon />
-                      </div>
-                      <p className='relative left-6'>Choose a file</p>
-                    </label>
-                  </div>
-                </div>
-                {getValues('photo') && (
-                  <>
-                    <span className='m-1'>
-                      {fileName ? fileName : defaultValues?.photo}
-                    </span>
-                    <span className='w-1/6'>
-                      <Button
-                        onClick={() => {
-                          setfileName('');
-                          setValue('photo', '');
-                        }}
-                        className='float-right'
-                        isIconOnly
-                        type='button'
-                        variant='light'
-                        color='default'>
-                        <XMarkIcon className='h-5 w-5' />
-                      </Button>
-                    </span>
-                  </>
-                )}
-              </div>
-              {errors?.photo?.message &&
-                typeof errors.photo.message === 'string' && (
-                  <h6 className='p-1 text-xs text-red-500'>
-                    {errors.photo.message}
-                  </h6>
-                )}
-            </div>
-          </div>
-          {watch('type')?.label === 'Video' && (
-            <div className='grid grid-cols-1 gap-4'>
+            {watch('type')?.label !== 'Video' && (
               <div>
                 <h6
                   className={`mb-2 pt-1 text-small ${
-                    errors?.video?.message ? 'text-red-500' : 'text-black'
+                    errors?.photo?.message ? 'text-red-500' : 'text-black'
                   }`}>
-                  Video
+                  {'Photo'}
                 </h6>
                 <div>
                   <input
                     type='file'
-                    accept='video/mp4,video/x-m4v,video/*'
+                    accept='image/*'
                     name='detailReports'
-                    id='file-upload-button-for-video'
+                    id='file-upload-button-for-photo'
                     className='file-upload-btn mb-2 w-5/6'
                     onChange={(e) => {
-                      handleImageUpload('video', e);
-                      updateVideoName(
+                      handleImageUpload('photo', e);
+                      updateFileName(
                         e.target.files ? e.target.files[0].name : '',
                       );
                     }}
@@ -206,7 +140,7 @@ const GalleryListForm = ({
                       className='mb-4 flex'
                       id='file-upload-label'>
                       <label
-                        htmlFor='file-upload-button-for-video'
+                        htmlFor='file-upload-button-for-photo'
                         className='flex-initial cursor-pointer'>
                         <div className='relative h-0 w-5'>
                           <ArrowUpTrayIcon />
@@ -215,16 +149,16 @@ const GalleryListForm = ({
                       </label>
                     </div>
                   </div>
-                  {getValues('video') && (
-                    <div>
+                  {getValues('photo') && (
+                    <>
                       <span className='m-1'>
-                        {videoName ? videoName : video_name[1]}
+                        {fileName ? fileName : defaultValues?.photo}
                       </span>
                       <span className='w-1/6'>
                         <Button
                           onClick={() => {
-                            setVideoName('');
-                            setValue('video', '');
+                            setfileName('');
+                            setValue('photo', '');
                           }}
                           className='float-right'
                           isIconOnly
@@ -234,16 +168,99 @@ const GalleryListForm = ({
                           <XMarkIcon className='h-5 w-5' />
                         </Button>
                       </span>
-                    </div>
+                    </>
                   )}
+                  <span className='photo-size-note'>
+                    Note: Image size: 300px x 300px
+                  </span>
                 </div>
-                {errors?.video?.message &&
-                  typeof errors.vodeo.message === 'string' && (
+                {errors?.photo?.message &&
+                  typeof errors.photo.message === 'string' && (
                     <h6 className='p-1 text-xs text-red-500'>
-                      {errors.vodeo.message}
+                      {errors.photo.message}
                     </h6>
                   )}
               </div>
+            )}
+          </div>
+          {/* {watch('type')?.label === 'Video' && (
+            <>
+              <div className='grid grid-cols-1 gap-4'>
+                <div>
+                  <h6
+                    className={`mb-2 pt-1 text-small ${
+                      errors?.video?.message ? 'text-red-500' : 'text-black'
+                    }`}>
+                    Video
+                  </h6>
+                  <div>
+                    <input
+                      type='file'
+                      accept='video/mp4,video/x-m4v,video/*'
+                      name='detailReports'
+                      id='file-upload-button-for-video'
+                      className='file-upload-btn mb-2 w-5/6'
+                      onChange={(e) => {
+                        handleImageUpload('video', e);
+                        updateVideoName(
+                          e.target.files ? e.target.files[0].name : '',
+                        );
+                      }}
+                    />
+                    <div className='flex'>
+                      <div
+                        className='mb-4 flex'
+                        id='file-upload-label'>
+                        <label
+                          htmlFor='file-upload-button-for-video'
+                          className='flex-initial cursor-pointer'>
+                          <div className='relative h-0 w-5'>
+                            <ArrowUpTrayIcon />
+                          </div>
+                          <p className='relative left-6'>Choose a file</p>
+                        </label>
+                      </div>
+                    </div>
+                    {getValues('video') && (
+                      <div>
+                        <span className='m-1'>
+                          {videoName ? videoName : video_name[1]}
+                        </span>
+                        <span className='w-1/6'>
+                          <Button
+                            onClick={() => {
+                              setVideoName('');
+                              setValue('video', '');
+                            }}
+                            className='float-right'
+                            isIconOnly
+                            type='button'
+                            variant='light'
+                            color='default'>
+                            <XMarkIcon className='h-5 w-5' />
+                          </Button>
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  {errors?.video?.message &&
+                    typeof errors.vodeo.message === 'string' && (
+                      <h6 className='p-1 text-xs text-red-500'>
+                        {errors.vodeo.message}
+                      </h6>
+                    )}
+                </div>
+              </div>
+            </>
+          )} */}
+          {watch('type')?.label === 'Video' && (
+            <div className='grid gap-4'>
+              <ControllerTextArea
+                type='text'
+                placeholder='Enter Youtube Code '
+                name='youtubeiframe'
+                label='Enter Youtube script'
+              />
             </div>
           )}
 

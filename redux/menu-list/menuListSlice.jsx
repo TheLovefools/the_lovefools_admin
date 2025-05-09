@@ -81,9 +81,11 @@ export const updateMenu = createAsyncThunk(
   async ({ id, payload }, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.post(
-        API_ENDPOINT.UPDATE_MENU_LIST(id),
+        API_ENDPOINT.UPDATE_MENU_LIST(id.id),
         payload[0],
       );
+
+      console.log('updateMenu_1', data, id, payload[1]);
 
       if (data && payload[1]) {
         const { photo } = payload[1];
@@ -91,7 +93,9 @@ export const updateMenu = createAsyncThunk(
         //   API_ENDPOINT.UPLOAD_PHOTO(data.data),
         //   formDataApi(payload[1].photo),
         // );
+        console.log('updateMenu_2', photo, payload[1]);
         if (photo && id?.photo) {
+          console.log('updateMenu_3', id.photo);
           await axiosInstance.post(API_ENDPOINT.DELETE_PHOTO, {
             PhotoUrl: id.photo,
           });
@@ -100,13 +104,15 @@ export const updateMenu = createAsyncThunk(
             formDataApi(photo),
           );
         } else {
+          console.log('updateMenu_4', photo);
           console.log('No photo to delete or upload');
         }
       }
       toast.success(MENU_LIST.MENU_LIST_UPDATE);
       return data;
     } catch (error) {
-      console.log(error);
+      console.error('Error updating Menu List:', error);
+      return rejectWithValue(error.message);
     }
   },
 );

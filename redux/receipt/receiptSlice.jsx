@@ -9,11 +9,19 @@ import {
 } from '@/utils/constant';
 import { toast } from 'react-toastify';
 
+// const initialListParameters = {
+//   page: 1,
+//   limit: 10,
+//   sortBy: 'id',
+//   sortOrder: SortDirection.DESC,
+//   search: '',
+// };
+
 const initialListParameters = {
   page: 1,
   limit: 10,
-  sortBy: 'id',
-  sortOrder: SortDirection.DESC,
+  sortBy: 'created_date', // updated to sort by created_date
+  sortOrder: SortDirection.DESC, // keep DESC if you want newest first
   search: '',
 };
 

@@ -121,7 +121,7 @@ const MenuList = () => {
   };
 
   const onSubmit = async (menuData) => {
-    const payload = [
+    const payloadOld = [
       {
         menu_Name: menuData.menuName,
         description: menuData.description,
@@ -135,17 +135,35 @@ const MenuList = () => {
       },
     ];
 
+    const payload = [
+      {
+        menu_Name: menuData.menuName,
+        description: menuData.description,
+        price: menuData.price,
+        // menuType: menuData.menuType.value,
+        menuType: '2', // 2 is for setmenu type
+        subMenuType: menuData.subMenuType.value,
+      },
+    ];
+
+    // Add photo only if user uploaded a new file
+    if (menuData.photo instanceof File) {
+      payload.push({ photo: menuData.photo });
+    }
+
     console.log('SetMenutForm Payload', menuData, payload);
 
     try {
       if (!defaultValues.current.id) {
+        console.log('Hello from SetMenu Page');
         const data = await dispatch(addMenu(payload));
         if (data) {
           dispatch(getMenuList({ ...listParameters, search: '', page: 1 }));
         }
       } else {
+        console.log('Hello from SetMenu Page 2');
         const data = await dispatch(
-          updateMenu({ id: defaultValues.current.id, payload: payload }),
+          updateMenu({ id: defaultValues.current, payload: payload }),
         );
         if (data) {
           dispatch(getMenuList({ ...listParameters, search: '', page: 1 }));

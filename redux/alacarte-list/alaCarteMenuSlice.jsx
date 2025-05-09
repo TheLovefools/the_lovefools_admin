@@ -153,7 +153,7 @@ export const updateAlaCarteMenu = createAsyncThunk(
         payload[0],
       );
 
-      console.log('updateAlaCarteMenu_1', data, payload, payload[1]);
+      console.log('updateAlaCarteMenu_1', data, id, payload[1]);
 
       // if (data) {
       //   const { photo, video } = payload[1];

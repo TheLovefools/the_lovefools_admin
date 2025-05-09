@@ -155,6 +155,9 @@ const TestimonialListForm = ({
                     </span>
                   </>
                 )}
+                <span className='photo-size-note'>
+                  Note: Image size: 120px x 120px
+                </span>
               </div>
               {errors?.photo?.message &&
                 typeof errors.photo.message === 'string' && (

@@ -68,6 +68,7 @@ const GalleryList = () => {
       id: row._id,
       name: row.gallery_Name,
       description: row.description,
+      youtubeiframe: row.youtube_iframe,
       type: type,
       photo: row.photo,
       video: row.video,
@@ -117,6 +118,7 @@ const GalleryList = () => {
       {
         gallery_Name: galleryData.name,
         description: galleryData.description,
+        youtube_iframe: galleryData.youtubeiframe,
         type: galleryData.type.label,
       },
       {

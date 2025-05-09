@@ -189,6 +189,9 @@ const UpcomingEventForm = ({
                     </span>
                   </>
                 )}
+                <span className='photo-size-note'>
+                  Note: Image size: 1200px x 800px
+                </span>
               </div>
               {errors?.photo?.message &&
                 typeof errors.photo.message === 'string' && (

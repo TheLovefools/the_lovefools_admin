@@ -353,3 +353,10 @@ input.file-upload-btn {
   font-family: inherit;
   min-width: 160px;
 }
+
+.photo-size-note {
+  font: normal normal 500 14px/120% "Raleway, sans-serif";
+  font-family: "Raleway, sans-serif";
+  color: #444444;
+  font-family: inherit;
+}
