@@ -262,8 +262,8 @@ const AlaCarteMenuList = () => {
         isOpen={showModal}
         header={
           defaultValues.current.id
-            ? 'Update Ala Cart Menu'
-            : 'Add Ala Cart Menu'
+            ? 'Update Ala Carte Menu'
+            : 'Add Ala Carte Menu'
         }
         onOpenChange={toggleAlaCarteMenuFormModal}>
         <AlaCarteMenutForm
