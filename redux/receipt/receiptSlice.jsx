@@ -25,7 +25,7 @@ const initialListParameters = {
   search: '',
 };
 
-const initialState = {
+const initialStateOld = {
   data: [],
   defaultValues: null,
   total: 0,
@@ -33,6 +33,16 @@ const initialState = {
   error: null,
   listParameters: initialListParameters,
   tab: '',
+};
+
+const initialState = {
+  data: [], // paginated table data
+  defaultValues: null,
+  total: 0,
+  listParameters: initialListParameters,
+  downloadData: [], // stores full list separately
+  loading: false,
+  error: null,
 };
 
 // Async thunks
@@ -43,6 +53,31 @@ export const getReceiptList = createAsyncThunk(
       const {
         data: { data: receiptData, pageData: meta },
       } = await axiosInstance.post(API_ENDPOINT.GET_RECEIPT, {
+        ...queryParameters,
+      });
+      return {
+        receiptData,
+        total: meta.total,
+        updatedListParams: {
+          ...queryParameters,
+          page: meta.page,
+          limit: meta.limit,
+        },
+      };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+// Thunk 2️: full-list download fetch
+export const getAllReceiptList = createAsyncThunk(
+  'receipt/getAllReceiptList',
+  async (queryParameters, { rejectWithValue }) => {
+    try {
+      const {
+        data: { data: receiptData, pageData: meta },
+      } = await axiosInstance.post(API_ENDPOINT.GET_ALL_RECEIPT, {
         ...queryParameters,
       });
       return {
@@ -144,6 +179,20 @@ const receiptSlice = createSlice({
       .addCase(getReceiptList.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      // Full download fetch (separate)
+      .addCase(getAllReceiptList.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllReceiptList.fulfilled, (state, action) => {
+        state.loading = false;
+        state.downloadData = action.payload.receiptData;
+      })
+      .addCase(getAllReceiptList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Failed to fetch all receipts';
       })
 
       .addCase(addReceipt.pending, (state) => {

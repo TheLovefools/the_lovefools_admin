@@ -1,7 +1,13 @@
 'use client';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { CONFIRMATION_MESSAGES, menuType, subMenuType } from '@/utils/constant';
+import {
+  CONFIRMATION_MESSAGES,
+  menuType,
+  SortDirection,
+  subMenuType,
+} from '@/utils/constant';
 import { List } from '@/components/common/list/List';
+import DownloadSheet from './DownloadSheet';
 import {
   ArrowPathIcon,
   PencilSquareIcon,
@@ -18,6 +24,7 @@ import {
   addReceipt,
   deleteReceipt,
   getReceiptList,
+  getAllReceiptList,
   updateReceipt,
 } from '@/redux/receipt/receiptSlice';
 import {
@@ -39,6 +46,7 @@ const ReceiptList = () => {
   const [showDeleteModal, setDeleteModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [id, setId] = useState(null);
+  const [allData, setAllData] = useState([]);
   const dispatch = useAppDispatch();
   const defaultValues = useRef({
     id: null,
@@ -61,6 +69,8 @@ const ReceiptList = () => {
     (state) => state.receipt,
   );
 
+  const downloadData = useAppSelector((state) => state.receipt.downloadData);
+
   const roomList = useAppSelector((state) => state.roomList);
 
   const getAllTables = useAppSelector((state) => state.tableList);
@@ -68,7 +78,15 @@ const ReceiptList = () => {
   const menuList = useAppSelector((state) => state.menuList);
 
   useEffect(() => {
-    dispatch(getReceiptList({}));
+    dispatch(
+      getReceiptList({
+        page: 1,
+        limit: 10,
+        sortBy: 'created_date',
+        sortOrder: SortDirection.DESC,
+      }),
+    );
+    dispatch(getAllReceiptList({}));
     dispatch(getMenuList({}));
     dispatch(getRoomList({}));
     dispatch(getTableList({ fetchAll: true, search: 'All' }));
@@ -84,7 +102,15 @@ const ReceiptList = () => {
   };
 
   const refreshBtn = () => {
-    dispatch(getReceiptList({}));
+    dispatch(
+      getReceiptList({
+        page: 1,
+        limit: 10,
+        sortBy: 'created_date',
+        sortOrder: SortDirection.DESC,
+      }),
+    );
+    dispatch(getAllReceiptList({}));
     dispatch(getMenuList({}));
     dispatch(getRoomList({}));
     dispatch(getTableList({ fetchAll: true, search: 'All' }));
@@ -235,13 +261,42 @@ const ReceiptList = () => {
   //   );
   // }, []);
 
+  useEffect(() => {
+    const fetchAllReceipts = async () => {
+      // setLoading(true);
+      try {
+        const response = await dispatch(
+          getAllReceiptList({
+            page: 1,
+            limit: 10000,
+            sortBy: 'created_date', // updated to sort by created_date
+            sortOrder: SortDirection.DESC, // keep DESC if you want newest first
+            search: '',
+          }),
+        ).unwrap();
+        // const receipts = store.getState().receipt.downloadData;
+        console.log('fetchAllReceipts_', response);
+        console.log('receipts_', downloadData);
+        if (response && response.receiptData) {
+          setAllData(response.receiptData); // ✅ store in local state
+        }
+      } catch (error) {
+        console.error('Failed to fetch all receipts', error);
+      } finally {
+        // setLoading(false);
+      }
+    };
+
+    fetchAllReceipts();
+  }, [dispatch]);
+
   return (
     <>
       <div className='container mx-auto'>
         <div className='flex flex-col justify-between'>
           <h2 className='text-2xl font-semibold'>Receipt List </h2>
-          <div className='flex flex-wrap'>
-            <div className='sm: flex w-full gap-4 sm:flex-col md:w-fit lg:w-3/4'>
+          <div className='full-wrap flex flex-wrap'>
+            <div className='left-wrap'>
               <div className='flex w-full flex-col sm:flex-row md:gap-4'>
                 <SearchBar
                   type='text'
@@ -252,12 +307,16 @@ const ReceiptList = () => {
                 />
               </div>
             </div>
-            <div className='my-2 flex w-full justify-end sm:w-1/4'>
+            <div className='right-wrap'>
+              <div className='download-wrap'>
+                <DownloadSheet data={allData} />
+              </div>
               <Button
                 isIconOnly
                 type='button'
                 variant='light'
                 color='default'
+                className='btn-reload'
                 onClick={refreshBtn}>
                 <Tooltip content='Refresh'>
                   <ArrowPathIcon className='h-5 w-5' />

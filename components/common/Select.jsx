@@ -41,6 +41,7 @@ const Select = ({
             menuPortal: (base) => ({ ...base, zIndex: 9999 }),
           }}
           // menuPosition='fixed'
+          classNamePrefix='custom-react-select'
           classNames={{
             control: (state) => {
               const defaultClassName =

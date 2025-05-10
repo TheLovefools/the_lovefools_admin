@@ -360,3 +360,71 @@ input.file-upload-btn {
   color: #444444;
   font-family: inherit;
 }
+
+.full-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  gap: 20px;
+}
+.full-wrap .left-wrap {
+  display: flex;
+  flex: 0;
+  min-width: 300px;
+}
+.full-wrap .right-wrap {
+  display: flex;
+  flex: 1;
+  align-content: center;
+  align-items: center;
+}
+.full-wrap .right-wrap .download-wrap {
+  flex: 1;
+  align-self: center;
+}
+
+.full-wrap .right-wrap .btn-reload {
+  margin-left: 12px;
+  margin-top: 0;
+}
+
+
+.download-sheet-form {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  column-gap: 10px;
+  margin-bottom: 24px;
+}
+
+.download-sheet-form > div {
+  align-self: flex-start;
+}
+
+.download-sheet-form .text-small {
+  font-size: 12px;
+}
+.download-sheet-form .mt-1\.5 {
+  margin-top: 0;
+}
+
+.download-sheet-form-month,
+.download-sheet-form-year {
+  width: 136px;
+  font-size: 13px;
+}
+
+.download-sheet-form .custom-react-select__control {
+
+}
+
+.download-sheet-form .custom-react-select__control .custom-react-select__value-container {
+  padding-right: 0;
+}
+
+.download-sheet-form .download-bttn {
+  margin-top: 24px;
+}

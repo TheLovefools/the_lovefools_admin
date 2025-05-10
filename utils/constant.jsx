@@ -11,6 +11,7 @@ export const API_ENDPOINT = {
   UPDATE_RECEIPT: (id) => `updateReceipt/${id}`,
   DELETE_RECEIPT: (id) => `deleteReceipt/${id}`,
   GET_RECEIPT: 'getReceiptList',
+  GET_ALL_RECEIPT: 'getAllReceiptList',
   ADD_TABLE_LIST: 'addTable',
   UPDATE_TABLE_LIST: (id) => `updateTable/${id}`,
   DELETE_TABLE_LIST: (id) => `deleteTable/${id}`,
@@ -66,6 +67,7 @@ export const API_ENDPOINT = {
   UPDATE_ENQUIRY_LIST: (id) => `updateEnquiry/${id}`,
   DELETE_ENQUIRY_LIST: (id) => `deleteEnquiry/${id}`,
   GET_ENQUIRY_LIST: 'getEnquiry',
+  GET_ORDER_STATUS: 'getOrderStatus',
 };
 
 export const SortDirection = {

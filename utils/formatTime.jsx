@@ -156,3 +156,14 @@ export const convertDateToZoned = (dateStr) => {
 
   return zonedDateTime;
 };
+
+export const getTimeInAmPm = (date) => {
+  // Get the formatted date and time using your existing function
+  const formattedDateTime = formatIndianDateTime(date);
+
+  // Split the formatted string to extract time (from the 'dd MMM yyyy - h:mm a' format)
+  const time = formattedDateTime.split(' - ')[1]; // This gets 'h:mm a' part
+
+  // Convert the extracted time to AM/PM format if needed
+  return time;
+};
