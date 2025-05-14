@@ -10,6 +10,7 @@ import {
   ClipboardDocumentIcon,
   PhoneArrowUpRightIcon,
   DocumentTextIcon,
+  CalendarIcon,
 } from '@heroicons/react/24/outline';
 
 const SidebarConfig = [
@@ -27,6 +28,11 @@ const SidebarConfig = [
     name: 'Ala Cart',
     icon: <DocumentTextIcon className='h-6 w-6' />,
     href: '/alacarte-list',
+  },
+  {
+    name: 'Party Bookings',
+    icon: <CalendarIcon className='h-6 w-6' />,
+    href: '/party-list',
   },
   {
     name: 'Table List ',

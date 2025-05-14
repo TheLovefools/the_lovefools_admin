@@ -39,6 +39,11 @@ export const API_ENDPOINT = {
   DELETE_MENU_LIST: (id) => `deleteMenu/${id}`,
   GET_MENU_LIST: 'getMenuList',
 
+  ADD_PARTY_LIST: 'addParty',
+  UPDATE_PARTY_LIST: (id) => `updateParty/${id}`,
+  DELETE_PARTY_LIST: (id) => `deleteParty/${id}`,
+  GET_PARTY_LIST: 'getPartyList',
+
   ADD_GALLERY_LIST: 'addGallery',
   UPDATE_GALLERY_LIST: (id) => `updateGallery/${id}`,
   DELETE_GALLERY_LIST: (id) => `deleteGallery/${id}`,
@@ -111,6 +116,12 @@ export const EVENT_LIST = {
   EVENT_LIST_UPDATE: 'Event list updated successfully',
 };
 
+export const PARTY_LIST = {
+  PARTY_LIST_DELETED: 'Party Booking deleted successfully',
+  PARTY_LIST_SUCCESS: 'Party Booking created successfully',
+  PARTY_LIST_UPDATE: 'Party Booking updated successfully',
+};
+
 export const UPCOMING_EVENT_LIST = {
   UPCOMING_EVENT_LIST_DELETED: 'Upcoming Event list deleted successfully',
   UPCOMING_EVENT_LIST_SUCCESS: 'Upcoming Event list created successfully',
@@ -165,6 +176,7 @@ export const CONFIRMATION_MESSAGES = {
   CONTACT_FORM_DELETE: 'Are you sure want to delete this contact form?',
   USER_LIST_DELETE: 'Are you sure want to delete this user list?',
   EVENT_LIST_DELETE: 'Are you sure want to delete this event list?',
+  PARTY_BOOKING_DELETE: 'Are you sure want to delete this booking?',
   GALLERY_LIST_DELETE: 'Are you sure want to delete this gallery list?',
   ALA_CARTE_LIST_DELETE: 'Are you sure want to delete this ala carte menu?',
   TESTIMONIAL_LIST_DELETE: 'Are you sure want to delete this testimonial list?',
@@ -280,5 +292,24 @@ export const enquiryFor = [
   {
     id: '3',
     type: 'Other',
+  },
+];
+
+export const bookingSlotOptions = [
+  {
+    value: '0',
+    slot: '11:00 AM - 1:00 PM',
+  },
+  {
+    value: '1',
+    slot: '1:30 PM - 3:30 PM',
+  },
+  {
+    value: '2',
+    slot: '7:00 PM - 9:00 PM',
+  },
+  {
+    value: '3',
+    slot: '9:30 PM - 11:30 PM',
   },
 ];

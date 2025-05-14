@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
+  bookingSlotOptions,
   CONFIRMATION_MESSAGES,
   menuType,
   SortDirection,
@@ -37,6 +38,7 @@ import {
   formatDate,
   formatDateTimeSuffix,
   formatIndianDateTime,
+  getTimeInAmPm,
 } from '@/utils/formatTime';
 import { getMenuList } from '@/redux/menu-list/menuListSlice';
 import { getRoomList } from '@/redux/room-list/roomSlice';
@@ -57,6 +59,8 @@ const ReceiptList = () => {
     table_number: null,
     mobile: '',
     price: '',
+    bookingDate: null,
+    bookingSlot: null,
     date: null,
     time: null,
     menuType: null,
@@ -135,6 +139,11 @@ const ReceiptList = () => {
       date: date, // Combined date and time
       time: { hour: parseInt(hr, 10), minute: parseInt(min, 10) }, // Create an object for TimeInput
       price: row.price,
+      bookingDate: row.bookingDate,
+      bookingSlot: findSingleSelectedValueLabelOption(
+        generateOptions(bookingSlotOptions, 'value', 'slot'),
+        row.bookingSlot,
+      ),
       menuType: findSingleSelectedValueLabelOption(
         generateOptions(menuType, 'id', 'type'),
         row.type,
@@ -179,6 +188,8 @@ const ReceiptList = () => {
       receiptName: null,
       room: null,
       table_number: null,
+      bookingDate: null,
+      bookingSlot: null,
       mobile: '',
       date: null,
       time: null,
@@ -290,6 +301,21 @@ const ReceiptList = () => {
     fetchAllReceipts();
   }, [dispatch]);
 
+  const getBookedSlotValueBE = (type, list) => {
+    const getSlotValue = findSingleSelectedValueLabelOption(
+      generateOptions(list, 'value', 'slot'),
+      type,
+    );
+    return getSlotValue.label;
+  };
+
+  useEffect(() => {
+    console.log(
+      'getSlotValue_1',
+      getBookedSlotValueBE('1', bookingSlotOptions),
+    );
+  }, []);
+
   return (
     <>
       <div className='container mx-auto'>
@@ -349,11 +375,15 @@ const ReceiptList = () => {
               label: 'Payment Date',
             },
             {
+              id: 'created_time',
+              label: 'Payment Time',
+            },
+            {
               id: 'date',
               label: 'Booking Date',
             },
-            { id: 'Time', label: 'Booking Time  ' },
-            { id: 'price', label: 'Price' },
+            { id: 'Time', label: 'Booking Slot' },
+            { id: 'price', label: 'Booking Amount' },
             { id: 'room', label: 'Room' },
             { id: 'table_number', label: 'Table Number' },
             { id: 'type', label: 'Menu Type' },
@@ -395,18 +425,31 @@ const ReceiptList = () => {
                 <TableCell>
                   <span className='mintablecellwidth date-cell'>
                     {row.created_date
-                      ? formatIndianDateTime(row.created_date)
+                      ? // ? formatIndianDateTime(row.created_date)
+                        formatDate(row.created_date)
                       : '-'}
                   </span>
                 </TableCell>
                 <TableCell>
+                  <span className='mintablecellwidth date-cell'>
+                    {row.created_date ? getTimeInAmPm(row.created_date) : '-'}
+                  </span>
+                </TableCell>
+                <TableCell>
                   <span className='date-cell'>
-                    {row.date ? formatDate(row.date) : '-'}
+                    {/* {row.date ? formatDate(row.date) : '-'} */}
+                    {row.bookingDate ? formatDate(row.bookingDate) : '-'}
                   </span>
                 </TableCell>
                 <TableCell>
                   <span className='mintablecellwidth date-cell'>
-                    {row.time ? convertToAmPm(row.time) : '-'}
+                    {/* {row.time ? convertToAmPm(row.time) : '-'} */}
+                    {row.bookingSlot
+                      ? getBookedSlotValueBE(
+                          row.bookingSlot,
+                          bookingSlotOptions,
+                        )
+                      : '-'}
                   </span>
                 </TableCell>
                 <TableCell>

@@ -6,6 +6,7 @@ import TableListReducer from '@/redux/table-list/tableListSlice';
 import ContactFormReducer from '@/redux/contact-form/contactFormSlice';
 import UserListReducer from '@/redux/user-list/userListSlice';
 import EventListReducer from '@/redux/event-list/eventListSlice';
+import PartyListReducer from '@/redux/party-list/partyListSlice';
 import GalleryListReducer from '@/redux/gallery-list/galleryListSlice';
 import AlaCarteMenuReducer from '@/redux/alacarte-list/alaCarteMenuSlice';
 import TestimonialListReducer from '@/redux/testimonial-list/testimonialListSlice';
@@ -23,6 +24,7 @@ export const rootReducer = combineReducers({
   contactForm: ContactFormReducer,
   userList: UserListReducer,
   eventList: EventListReducer,
+  partyList: PartyListReducer,
   galleryList: GalleryListReducer,
   alaCarteList: AlaCarteMenuReducer,
   testimonialList: TestimonialListReducer,

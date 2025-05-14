@@ -11,7 +11,11 @@ import {
   formatIndianDateTime,
   getTimeInAmPm,
 } from '@/utils/formatTime';
-import { convertToAmPm } from '@/utils/utils';
+import {
+  convertToAmPm,
+  findSingleSelectedValueLabelOption,
+} from '@/utils/utils';
+import { bookingSlotOptions } from '@/utils/constant';
 
 // --- generateOptions helper ---
 export const generateOptions = (options, valueKey, labelKey) => {
@@ -93,6 +97,14 @@ const DownloadSheet = ({ data }) => {
       return;
     }
 
+    const getBookedSlotValueBE = (type, list) => {
+      const getSlotValue = findSingleSelectedValueLabelOption(
+        generateOptions(list, 'value', 'slot'),
+        type,
+      );
+      return getSlotValue.label;
+    };
+
     // ✅ Map data into a plain array of objects (for Excel)
     const excelData = filteredData.map((item, index) => ({
       SNo: index + 1,
@@ -103,8 +115,10 @@ const DownloadSheet = ({ data }) => {
       'Mobile No': item.mobileNo || '-',
       'Payment Date': formatDate(item.created_date) || '-',
       'Payment Time': getTimeInAmPm(item.created_date) || '-',
-      'Booking Date': formatDate(item.date) || '-',
-      'Booking Time': convertToAmPm(item.time) || '-',
+      'Booking Date': formatDate(item.bookingDate) || '-',
+      // 'Booking Slot': convertToAmPm(item.time) || '-',
+      'Booking Slot':
+        getBookedSlotValueBE(item.bookingSlot, bookingSlotOptions) || '-',
       'Booking Amount': '₹' + item.price || '-',
       'Booked Room': item.room || '-',
       'Booked Table': item.table_number || '-',

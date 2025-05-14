@@ -90,8 +90,16 @@ export const disabledForRoles = (roles, Role) => {
   return !(rolesNames && Role.some((role) => rolesNames.includes(role)));
 };
 
-export const findSingleSelectedValueLabelOption = (options, selectedValue) => {
+export const findSingleSelectedValueLabelOptionOld = (
+  options,
+  selectedValue,
+) => {
   return options.find((item) => item?.value === selectedValue) || null;
+};
+
+export const findSingleSelectedValueLabelOption = (options, selectedValue) => {
+  const val = selectedValue?.value || selectedValue;
+  return options.find((item) => item?.value === val) || null;
 };
 
 export const generateOptionsFromEnum = (members) =>
@@ -370,4 +378,10 @@ export const convertToAmPm = (timeStr) => {
 
   hour = hour % 12 || 12; // Convert 0 to 12
   return `${hour}:${minuteStr} ${ampm}`;
+};
+
+export const getUTCMidnightISOString = (date) => {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+  ).toISOString();
 };
