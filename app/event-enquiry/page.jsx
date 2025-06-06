@@ -266,7 +266,7 @@ const EventEnquiryList = () => {
                 <TableCell>
                   {row.event_Enquiry_Option
                     ? getDataLabel(enquiryFor, row.event_Enquiry_Option)
-                    : '-'}
+                    : '- '}
                 </TableCell>
                 <TableCell>{row.event_Description}</TableCell>
                 {/* <TableCell>
