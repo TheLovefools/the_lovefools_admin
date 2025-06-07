@@ -44,7 +44,7 @@ const AlaCarteMenutForm = ({
     clearErrors,
   } = methods;
 
-  console.log(errors);
+  // console.log(errors);
 
   const onSubmit = async (data) => {
     console.log('AlaCarteMenutForm Data', data);

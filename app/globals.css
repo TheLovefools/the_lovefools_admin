@@ -347,7 +347,7 @@ input.file-upload-btn {
 }
 
 .date-cell {
-  font: normal normal 600 14px/120% "Raleway, sans-serif";
+  font: normal normal 600 15px/120% "Raleway, sans-serif";
   font-family: "Raleway, sans-serif";
   color: #777777;
   font-family: inherit;
@@ -417,14 +417,114 @@ input.file-upload-btn {
   font-size: 13px;
 }
 
-.download-sheet-form .custom-react-select__control {
-
-}
-
 .download-sheet-form .custom-react-select__control .custom-react-select__value-container {
   padding-right: 0;
 }
 
 .download-sheet-form .download-bttn {
   margin-top: 24px;
+}
+.react-datepicker-popper .react-datepicker__triangle {
+  display: none;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker-wrapper .calendar-main-class {
+  font-family: "Inter", sans-serif !important;
+  color: #000;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 0.625rem;
+  padding-left: 2.25rem;
+  box-sizing: border-box;
+  border: 2px solid #e4e4e7;
+  border-radius: 8px;
+  width: 100%;
+  min-width: 250px;
+}
+
+.react-datepicker-wrapper .calendar-main-class.border-danger {
+  border-color: #f31260;
+}
+
+.react-datepicker-wrapper .calendar-main-class::placeholder {
+  color: #9ca3af;
+}
+
+.react-datepicker-wrapper .calendar-main-class:focus-visible {
+  outline: 0;
+}
+
+.react-datepicker.calendar-outer-class {
+  font-family: "Inter", sans-serif !important;
+  color: #000;
+  border-radius: 0;
+  border: 0;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.react-datepicker.calendar-outer-class .react-datepicker__month-container {
+  padding: 10px 10px 5px;
+}
+
+.react-datepicker.calendar-outer-class .react-datepicker__header {
+  background-color: #fff;
+  text-align: center;
+  border-bottom: 2px solid #f4f4f4;
+  border-radius: 0;
+  padding: 0px 0 15px;
+  margin-bottom: 5px;
+  position: relative;
+}
+
+.react-datepicker.calendar-outer-class .react-datepicker__header .items-center span.text-sm {
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.react-datepicker.calendar-outer-class .react-datepicker__header .react-datepicker__day-name {
+  line-height: 1.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  width: 36px;
+}
+
+.react-datepicker.calendar-outer-class .calendar-base-class {
+  width: 36px;
+  height: 36px;
+  line-height: 2.25rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 0.3rem;
+}
+
+.react-datepicker.calendar-outer-class .calendar-base-class.react-datepicker__day--outside-month {
+  opacity: 0.4;
+}
+
+.react-datepicker.calendar-outer-class .calendar-base-class.calendar-today-class {
+  background-color: rgba(237, 28, 36, 0.4);
+}
+
+.react-datepicker.calendar-outer-class .calendar-base-class.react-datepicker__day--keyboard-selected {
+  background-color: transparent;
+}
+
+.react-datepicker.calendar-outer-class .calendar-base-class.react-datepicker__day--selected {
+  background-color: #ed1c24;
+  color: #fff;
+}
+
+.react-datepicker.calendar-outer-class .calendar-base-class.react-datepicker__day--disabled,
+.react-datepicker.calendar-outer-class .calendar-base-class.react-datepicker__day--excluded {
+  background-color: #dbdbdb;
+  color: #000;
+  opacity: 0.6;
+  cursor: not-allowed;
 }
