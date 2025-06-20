@@ -4,18 +4,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import ControllerTextField from '@/components/common/ControllerTextField';
 import Button from '@/components/common/Button';
 import FormProvider from '@/components/common/FormProvider';
-import { reciptSchema } from '@/schema/receipt/receipt';
 import ControllerTextArea from '../common/ControllerTextArea';
 import {
   findSingleSelectedValueLabelOption,
   generateOptions,
 } from '@/utils/utils';
 import { menuType, subMenuType } from '@/utils/constant';
-import {
-  ArrowUpTrayIcon,
-  EyeIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+import { ArrowUpTrayIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 import ControllerSelect from '../common/ControllerSelect';
 import { menuSchema } from '@/schema/menu-list/menuList';

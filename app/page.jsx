@@ -361,6 +361,7 @@ const ReceiptList = () => {
           columns={[
             { id: 'orderId', label: 'order #' },
             { id: 'paymentSuccess', label: 'Status' },
+            { id: 'orderStatus', label: 'Status Code' },
             { id: 'emailId', label: 'Email' },
             {
               id: 'mobileNo',
@@ -406,8 +407,14 @@ const ReceiptList = () => {
                 <TableCell>{row.orderId ? row.orderId : '-'}</TableCell>
                 <TableCell>
                   <span
-                    className={`pay-status ${row.paymentSuccess === true ? 'success' : ''}`}>
+                    className={`pay-status ${row.paymentSuccess === true ? 'success' : 'pending'}`}>
                     {row.paymentSuccess === false ? 'Pending' : 'Paid'}
+                  </span>
+                </TableCell>
+                <TableCell>
+                  <span
+                    className={`pay-status ${row.orderStatus.toLowerCase()}`}>
+                    {row.orderStatus}
                   </span>
                 </TableCell>
                 <TableCell>{row.emailId}</TableCell>

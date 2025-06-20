@@ -331,7 +331,7 @@ input.file-upload-btn {
 
 .pay-status {
   display: inline-block;
-  background-color: #fbd1a2;
+  background-color: rgb(255, 152, 152);
   color: #222222;
   padding: 4px 15px;
   border-radius: 4px;
@@ -341,8 +341,11 @@ input.file-upload-btn {
   font-size: 12px;
   font-weight: 600;
   border: 1px solid #71717a;
-  &.success {
+  &.success, &.charged {
     background-color: #70ae6e;
+  }
+  &.pending, &.new {
+    background-color: #fbd1a2;
   }
 }
 
