@@ -128,7 +128,7 @@ const Sidebar = ({ open, toggleSidebar }) => {
         <div
           className='hide-scrollbar relative mt-4 flex max-h-full flex-col pb-5'
           style={{
-            maxHeight: 'calc(100vh - 40px)',
+            maxHeight: 'calc(80vh - 10px)',
             overflowY: 'auto',
           }}>
           {renderSidebarItems()}
